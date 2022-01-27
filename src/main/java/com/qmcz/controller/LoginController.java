@@ -24,6 +24,8 @@ public class LoginController {
     /**
      * 不知道这个认证方法有没有用
      * 不知道逻辑，就不是很好搞
+     * 这个不应该是请求功能而应该是一般方法
+     * 是需要被调用的
      * @return 消息字段
      */
     @RequestMapping("/authen")
