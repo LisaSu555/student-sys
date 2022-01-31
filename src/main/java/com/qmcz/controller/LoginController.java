@@ -1,6 +1,8 @@
 package com.qmcz.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -12,13 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("")
 public class LoginController {
 
+    @RequestMapping("")
+    public String index(ModelMap map){
+        map.addAttribute("name","hello");
+        return "pages/login";
+    }
+
     /**
      * 直接跳转到登陆界面
      * @return 登录界面的跳转
      */
     @RequestMapping("/login")
-    public String login(){
-        return "login";
+    public String login(ModelMap map){
+        map.addAttribute("name","hello");
+        return "page/login";
     }
 
     /**

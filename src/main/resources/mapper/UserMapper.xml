@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qmcz.mapper.UserMapper" >
+
+    <select id="selectUserList" resultType="com.qmcz.domain.User">
+        select
+          s.id  ,  s.name , s.sex , s.authen_code as authenCode,
+          s.age ,  1 as teacherId , s.class_id as classId ,
+          1 as subjectId , 1 as phone
+        from student s
+        union all
+        select
+          t.id,   t.name, t.sex, t.authen_code,
+          0   ,   0     , 0    , t.subject_id ,  t.phone
+        from teacher t
+    </select>
+</mapper>

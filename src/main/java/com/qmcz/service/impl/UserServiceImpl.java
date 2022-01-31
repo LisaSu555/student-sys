@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public TransformData<User> getUserList() {
         TransformData<User> t = new TransformData<>();
-        QueryWrapper<User> qw = new QueryWrapper<>();
-        List<User> userList = userMapper.selectList(qw);
+
+        List<User> userList = userMapper.selectUserList();
         if(userList != null && userList.size()>0){
             t.setRows(userList);
             t.setCode("0000");
