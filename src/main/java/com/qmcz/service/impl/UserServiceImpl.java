@@ -1,6 +1,5 @@
 package com.qmcz.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
 import com.qmcz.mapper.UserMapper;
@@ -31,6 +30,26 @@ public class UserServiceImpl implements UserService {
         }else{
             t.setCode("0001");
             t.setMsg("没有数据，或者数据集合为空");
+        }
+        return t;
+    }
+
+    @Override
+    public TransformData<User> addUser(User user) {
+        TransformData<User> t = new TransformData<>();
+        int insert_count = userMapper.insert(user);
+        if (insert_count == 0){
+            t.setCode("0001");
+            t.setMsg("错误，没有插入任何数据");
+            t.setRows(null);
+        }else if (insert_count == 1){
+            t.setCode("0000");
+            t.setMsg("成功插入一条数据");
+            t.setRows(null);
+        }else {
+            t.setCode("1111");
+            t.setMsg("错误，后台报错");
+            t.setRows(null);
         }
         return t;
     }

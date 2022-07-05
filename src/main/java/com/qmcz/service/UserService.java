@@ -10,4 +10,6 @@ import com.qmcz.domain.User;
 public interface UserService {
 
     TransformData<User> getUserList();
+
+    TransformData<User> addUser(User user);
 }

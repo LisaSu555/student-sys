@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/contra?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
+    url: jdbc:mysql://localhost:3306/db0705?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
@@ -19,3 +19,5 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.qmcz.mapper
+  configuration:
+    map-underscore-to-camel-case: true
