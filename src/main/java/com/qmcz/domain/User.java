@@ -1,5 +1,7 @@
 package com.qmcz.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -8,7 +10,9 @@ import lombok.Data;
  * @date 2022/01/27
  */
 @Data
+@TableName("user")
 public class User {
+    @TableId("id")
     public int id;
     public String name;
     public int sex;
