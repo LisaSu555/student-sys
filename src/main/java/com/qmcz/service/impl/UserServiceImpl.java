@@ -4,9 +4,12 @@ import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
 import com.qmcz.mapper.UserMapper;
 import com.qmcz.service.UserService;
+import com.qmcz.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,8 +46,9 @@ public class UserServiceImpl implements UserService {
             t.setMsg("错误，没有插入任何数据");
             t.setRows(null);
         }else if (insert_count == 1){
+            String time_string = TimeUtil.getNowTimeToSS();
             t.setCode("0000");
-            t.setMsg("成功插入一条数据");
+            t.setMsg("成功插入一条数据,操作时间是"+time_string);
             t.setRows(null);
         }else {
             t.setCode("1111");
