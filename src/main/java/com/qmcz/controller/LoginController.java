@@ -1,10 +1,15 @@
 package com.qmcz.controller;
 
+import com.qmcz.domain.User;
 import com.qmcz.domain.vi.LoginUser;
+import com.qmcz.mapper.NormalQueryMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * 登录，就是用来登录的，也可以登录验证。
@@ -15,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("")
 public class LoginController {
 
+    @Autowired
+    private NormalQueryMapper normalQueryMapper;
     @RequestMapping("")
     public String index(ModelMap map){
         map.addAttribute("name","hello");
@@ -40,7 +47,8 @@ public class LoginController {
      */
     @RequestMapping("/authen")
     public String authenUser(LoginUser loginUser){
-
+        List<User> userList = normalQueryMapper.selectData();
+        //userList.forEach();
         return "";
     }
 }
