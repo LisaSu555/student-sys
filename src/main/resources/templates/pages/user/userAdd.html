@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>userAdd</title>
+    <!--利用thymeleaf表达式获取css路径,bootstrap给button提供样式-->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/jquery3.js}"></script>
+</head>
+
+<body class="container">
+<h1>添加用户信息</h1>
+<br/><br/>
+
+<div class="with:80%">
+    <form class="form-horizontal"  th:action="@{/user/add_user}"  method="post">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">用户名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name"  id="user_name" placeholder="请输入用户名称"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >年龄</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="age" id="age" placeholder="请输入年龄"/>
+            </div>
+        </div>
+        <br/>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" onclick="before_submit()" value="保存" class="btn btn-info" />
+                <input type="reset" value="重置" class="btn btn-info" />
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+    <script>
+        $(function () {
+            alert("你在干什么？")
+        });
+
+        function before_submit() {
+            return false;
+        }
+
+        $.ajax({
+
+        });
+    </script>
+</html>
+
