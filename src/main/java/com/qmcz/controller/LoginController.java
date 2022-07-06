@@ -1,5 +1,6 @@
 package com.qmcz.controller;
 
+import com.qmcz.domain.vi.LoginUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -38,7 +39,8 @@ public class LoginController {
      * @return 消息字段
      */
     @RequestMapping("/authen")
-    public String authenUser(){
+    public String authenUser(LoginUser loginUser){
+
         return "";
     }
 }
