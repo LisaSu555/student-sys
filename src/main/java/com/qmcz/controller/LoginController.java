@@ -1,7 +1,6 @@
 package com.qmcz.controller;
 
 import com.qmcz.base.TransformData;
-import com.qmcz.domain.User;
 import com.qmcz.domain.vi.LoginUser;
 import com.qmcz.domain.vo.UserAccount;
 import com.qmcz.mapper.NormalQueryMapper;
@@ -12,12 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.util.ListUtils;
-import sun.security.util.Length;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +40,7 @@ public class LoginController {
     }
 
     /**
-     * 直接跳转到登陆界面
+     * 直接跳转到登陆界面，同上面，只是请求路径的区别
      * @return 登录界面的跳转
      */
     @RequestMapping("/login")
@@ -53,45 +50,48 @@ public class LoginController {
     }
 
     /**
-     * 不知道这个认证方法有没有用
-     * 不知道逻辑，就不是很好搞
-     * 这个不应该是请求功能而应该是一般方法
-     * 是需要被调用的
-     * @return 消息字段
+     * 登录验证，涉及到session
+     * @return 消息对象
      */
     @ResponseBody
     @PostMapping("/authen")
     public TransformData authenUser(LoginUser loginUser , HttpServletRequest req, HttpServletResponse resp){
+        //获取session
         HttpSession session = req.getSession();
+        //创建消息对象
         TransformData tr = new TransformData();
+        //查询所有用户
         List<UserAccount> userList = normalQueryMapper.selectData();
-        int a = 0;
+        //判断输入的账号密码是否正确
         if(!ListUtils.isEmpty(userList)){
             for (UserAccount userAccount:userList) {
+                //得到输入的账号和密码，和数据库中的所有数据进行对比
                 String input_name = loginUser.getName();
                 String input_password = loginUser.getPassword();
                 String name = userAccount.getName();
                 String psw = userAccount.getPsw();
 
                 if(input_name!=null&&input_name.equals(name)){
+                    //账号密码均相同
                     if(input_password!=null&&input_password.equals(psw)){
-                        //登录成功 Todo
+                        //登录成功后在session中存入对象
                         session.setAttribute("vip", loginUser);
+                        //设置session过期时间
                         session.setMaxInactiveInterval(2000);
                         System.out.println("登录成功");
+                        //设置消息体
                         tr.setMsg("登录成功");
                         tr.setCode("0000");
-                        System.out.println(req.getSession().getAttribute("vip"));
                         return tr;
-                    }else {
-                        //密码错误 Todo
+                    }else {//账号正确密码错误
+                        //登录失败则清空session，则需要重新登录
                         session.removeAttribute("vip");
                         System.out.println("密码错误！");
                         tr.setCode("0001");
                         tr.setMsg("密码错误");
                         return tr;
                     }
-                }else {
+                }else {//其他情况
                     session.removeAttribute("vip");
                     tr.setCode("0001");
                     tr.setMsg("可能是你是账号写错了！");
