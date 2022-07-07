@@ -7,11 +7,15 @@ import com.qmcz.domain.vo.UserAccount;
 import com.qmcz.mapper.NormalQueryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.util.ListUtils;
+import sun.security.util.Length;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,11 +24,16 @@ import java.util.List;
  * @date 2022/01/23
  */
 @Controller
-@RequestMapping("")
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
     private NormalQueryMapper normalQueryMapper;
+
+    /**
+     * 直接跳转到登陆界面
+     * @return 登录界面的跳转
+     */
     @RequestMapping("")
     public String index(ModelMap map){
         map.addAttribute("name","hello");
@@ -50,23 +59,40 @@ public class LoginController {
      */
     @ResponseBody
     @RequestMapping("/authen")
-    public TransformData authenUser(LoginUser loginUser){
+    public TransformData authenUser(LoginUser loginUser , HttpServletRequest req, HttpServletResponse resp){
         TransformData tr = new TransformData();
         List<UserAccount> userList = normalQueryMapper.selectData();
-        userList.forEach(user -> {
-            String input_name = loginUser.getName();
-            String input_password = loginUser.getPassword();
-            String name = user.getName();
-            String psw = user.getPsw();
+        int a = 0;
+        if(!ListUtils.isEmpty(userList)){
+            for (UserAccount userAccount:userList) {
+                String input_name = loginUser.getName();
+                String input_password = loginUser.getPassword();
+                String name = userAccount.getName();
+                String psw = userAccount.getPsw();
 
-            if(input_name!=null&&input_name.equals(name)){
-                if(input_password!=null&&input_password.equals(psw)){
-
+                if(input_name!=null&&input_name.equals(name)){
+                    if(input_password!=null&&input_password.equals(psw)){
+                        //登录成功 Todo
+                        req.setAttribute("vip", userAccount);
+                        System.out.println("登录成功");
+                        tr.setMsg("登录成功");
+                        tr.setCode("0000");
+                        return tr;
+                    }else {
+                        //密码错误 Todo
+                        req.removeAttribute("vip");
+                        System.out.println("密码错误！");
+                        tr.setCode("0001");
+                        tr.setMsg("密码错误");
+                        return tr;
+                    }
+                }else {
+                    tr.setCode("0001");
+                    tr.setMsg("可能是你是账号写错了！");
+                    return tr;
                 }
-            }else {
-                //return tr;
             }
-        });
+        }
         return tr;
     }
 }

@@ -4,7 +4,7 @@
 
 <mapper namespace="com.qmcz.mapper.NormalQueryMapper" >
 
-    <select id="selectData" resultType="com.qmcz.domain.User">
-        select * from user_account;
+    <select id="selectData" resultType="com.qmcz.domain.vo.UserAccount">
+        select b.name , a.psw from user_account a left join user b on a.user_id = b.id;
     </select>
 </mapper>

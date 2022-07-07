@@ -28,13 +28,13 @@
 <body>
 
 <div class="container">
-    <form class="form-signin" action="/authen" style="">
+    <form class="form-signin" action="/login/authen" style="">
         <br/>
         <h2 class="form-signin-heading" style="">请登录</h2>
         <label class="sr-only">账号/用户名</label>
-        <input type="email" style="width: 200px" id="inputEmail" class="form-control" placeholder="账号" required autofocus>
+        <input type="text" style="width: 200px" id="account" class="form-control" name="name" placeholder="账号" required autofocus>
         <label class="sr-only">密码</label>
-        <input type="password" style="width: 200px" id="inputPassword" class="form-control" placeholder="密码" required>
+        <input type="password" style="width: 200px" id="psw" class="form-control" name="password" placeholder="密码" required>
         <br/>
         <button class="btn btn-primary" type="submit">登录</button>
         <button class="btn btn-info" type="reset">重置</button>
@@ -44,7 +44,7 @@
 </body>
 <script>
     $(function () {
-        alert("请登录")
+
     })
 </script>
 </html>
