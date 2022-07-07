@@ -1,13 +1,16 @@
 package com.qmcz.controller;
 
+import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
 import com.qmcz.domain.vi.LoginUser;
+import com.qmcz.domain.vo.UserAccount;
 import com.qmcz.mapper.NormalQueryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -45,10 +48,25 @@ public class LoginController {
      * 是需要被调用的
      * @return 消息字段
      */
+    @ResponseBody
     @RequestMapping("/authen")
-    public String authenUser(LoginUser loginUser){
-        List<User> userList = normalQueryMapper.selectData();
-        //userList.forEach();
-        return "";
+    public TransformData authenUser(LoginUser loginUser){
+        TransformData tr = new TransformData();
+        List<UserAccount> userList = normalQueryMapper.selectData();
+        userList.forEach(user -> {
+            String input_name = loginUser.getName();
+            String input_password = loginUser.getPassword();
+            String name = user.getName();
+            String psw = user.getPsw();
+
+            if(input_name!=null&&input_name.equals(name)){
+                if(input_password!=null&&input_password.equals(psw)){
+
+                }
+            }else {
+                //return tr;
+            }
+        });
+        return tr;
     }
 }
