@@ -8,6 +8,7 @@ import com.qmcz.mapper.NormalQueryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.util.ListUtils;
@@ -15,6 +16,7 @@ import sun.security.util.Length;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,8 +60,9 @@ public class LoginController {
      * @return 消息字段
      */
     @ResponseBody
-    @RequestMapping("/authen")
+    @PostMapping("/authen")
     public TransformData authenUser(LoginUser loginUser , HttpServletRequest req, HttpServletResponse resp){
+        HttpSession session = req.getSession();
         TransformData tr = new TransformData();
         List<UserAccount> userList = normalQueryMapper.selectData();
         int a = 0;
@@ -73,20 +76,23 @@ public class LoginController {
                 if(input_name!=null&&input_name.equals(name)){
                     if(input_password!=null&&input_password.equals(psw)){
                         //登录成功 Todo
-                        req.setAttribute("vip", userAccount);
+                        session.setAttribute("vip", loginUser);
+                        session.setMaxInactiveInterval(2000);
                         System.out.println("登录成功");
                         tr.setMsg("登录成功");
                         tr.setCode("0000");
+                        System.out.println(req.getSession().getAttribute("vip"));
                         return tr;
                     }else {
                         //密码错误 Todo
-                        req.removeAttribute("vip");
+                        session.removeAttribute("vip");
                         System.out.println("密码错误！");
                         tr.setCode("0001");
                         tr.setMsg("密码错误");
                         return tr;
                     }
                 }else {
+                    session.removeAttribute("vip");
                     tr.setCode("0001");
                     tr.setMsg("可能是你是账号写错了！");
                     return tr;
