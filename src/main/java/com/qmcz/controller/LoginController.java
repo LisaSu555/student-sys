@@ -66,14 +66,14 @@ public class LoginController {
         if(!ListUtils.isEmpty(userList)){
             for (UserAccount userAccount:userList) {
                 //得到输入的账号和密码，和数据库中的所有数据进行对比
-                String input_name = loginUser.getName();
-                String input_password = loginUser.getPassword();
+                String inputName = loginUser.getName();
+                String inputPassword = loginUser.getPassword();
                 String name = userAccount.getName();
                 String psw = userAccount.getPsw();
 
-                if(input_name!=null&&input_name.equals(name)){
+                if(inputName!=null&&inputName.equals(name)){
                     //账号密码均相同
-                    if(input_password!=null&&input_password.equals(psw)){
+                    if(inputPassword!=null&&inputPassword.equals(psw)){
                         //登录成功后在session中存入对象
                         session.setAttribute("vip", loginUser);
                         //设置session过期时间
@@ -82,21 +82,19 @@ public class LoginController {
                         //设置消息体
                         tr.setMsg("登录成功");
                         tr.setCode("0000");
-                        return tr;
                     }else {//账号正确密码错误
                         //登录失败则清空session，则需要重新登录
                         session.removeAttribute("vip");
                         System.out.println("密码错误！");
                         tr.setCode("0001");
                         tr.setMsg("密码错误");
-                        return tr;
                     }
                 }else {//其他情况
                     session.removeAttribute("vip");
                     tr.setCode("0001");
                     tr.setMsg("可能是你是账号写错了！");
-                    return tr;
                 }
+                return tr;
             }
         }
         return tr;
