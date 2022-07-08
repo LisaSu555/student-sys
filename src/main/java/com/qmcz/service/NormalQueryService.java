@@ -1,7 +1,9 @@
 package com.qmcz.service;
 
+import com.qmcz.domain.vo.UserAccount;
+
 import java.util.List;
 
 public interface NormalQueryService {
-    <T> List<T> selectData();
+    List<UserAccount> selectData();
 }

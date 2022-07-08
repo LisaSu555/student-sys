@@ -1,5 +1,6 @@
 package com.qmcz.mapper;
 
+import com.qmcz.domain.vo.UserAccount;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,5 +13,9 @@ import java.util.List;
 @Repository
 public interface NormalQueryMapper {
 
-    <T> List<T> selectData();
+    /**
+     * 查询用户账号信息
+     * @return 用户账号对象列表
+     */
+    List<UserAccount> selectData();
 }
