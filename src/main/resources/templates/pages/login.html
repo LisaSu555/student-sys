@@ -36,7 +36,7 @@
         <label class="sr-only">密码</label>
         <input type="password" style="width: 200px" id="psw" class="form-control" name="password" placeholder="密码" required>
         <br/>
-        <button class="btn btn-primary" type="submit">登录</button>
+        <button class="btn btn-primary" id="login" type="button">登录</button>
         <button class="btn btn-info" type="reset">重置</button>
     </form>
 
@@ -45,6 +45,35 @@
 <script>
     $(function () {
 
+    });
+
+    $("#login").click(function () {
+        console.log("进入了方法");
+        $.ajax({
+            url : "/login/authen",//为wed.xml的AjaxServlet的路径
+            type : "POST",		//POST方法
+            data : {
+                name : $("#account").val(), //获取用户名的值传到AjaxServlet
+                password : $("#psw").val()	//获取密码的值传到AjaxServlet
+            },
+            dataType : "application/json",		//回传 的值为text
+            success : function(e) {
+                console.log("成功的方法");
+                if(e.responseText.code === "0000"){
+                    console.log("ok")
+                }
+            },
+            complete: function(r) {
+                //请求完成的处理
+                console.log("完成的方法");
+                console.log(r.responseText)
+            },
+            error: function(t) {
+                //请求出错处理
+                console.log("成功的方法");
+                console.log(t.responseText)
+            }
+        })
     })
 </script>
 </html>
