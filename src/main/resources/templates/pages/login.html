@@ -37,7 +37,7 @@
         <input type="password" style="width: 200px" id="psw" onfocus="changePsw()" class="form-control" name="password" placeholder="密码" required>
         <br/>
         <button class="btn btn-primary" id="login" type="button">登录</button>
-        <button class="btn btn-info" type="reset">重置</button>
+        <button class="btn btn-info" id="rest" type="reset">重置</button>
     </form>
     <br/>
     <div>
@@ -79,6 +79,9 @@
     function changePsw(){
         tishiText("")
     }
+    $("#rest").click(function () {
+        tishiText("")
+    });
     function tishiText(text) {
         $("#tishi").text(text);
     }

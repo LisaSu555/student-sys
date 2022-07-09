@@ -33,12 +33,12 @@ public class HandlerInterceptorMy implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest req, HttpServletResponse resp, Object handler, ModelAndView modelAndView){
         //请求处理以后进行调用,Controller方法之后
-        System.out.println("执行了Posthandler方法");
+//        System.out.println("执行了Posthandler方法");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest req, HttpServletResponse resp, Object handler, Exception ex){
-        System.out.println("执行了afterCompletion");
+//        System.out.println("执行了afterCompletion");
         //在整个请求结束之后,渲染了对应的视图以后执行,主要用于资源清理工作
     }
 }
