@@ -23,6 +23,8 @@ public class WebMVCConfig implements WebMvcConfigurer {
                 "/**/*.css",
                 "/**/*.js",
                 "/**/*.gif",
+                "/**/*.jpg",
+                "/**/*.png",
                 "/**/*.ico"
         );//添加不被拦截的路径,有很多静态资源
     }
