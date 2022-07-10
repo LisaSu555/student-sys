@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>userAdd</title>
-    <!--利用thymeleaf表达式获取css路径,bootstrap给button提供样式-->
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
-    <script type="text/javascript" th:src="@{/js/jquery3.js}"></script>
-</head>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>userList</title>
+        <!--利用thymeleaf表达式获取css路径,bootstrap给button提供样式-->
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+        <script type="text/javascript" th:src="@{/js/jquery3.js}"></script>
+    </head>
 
-<body class="container">
-<h1>用户列表</h1>
-<br/><br/>
+    <body class="container">
+        <div>
+            <table>
+                <tr>
+                    <th width="100">用户名</th>
+                    <th width="100">年龄</th>
+                    <th width="100">性别</th>
+                </tr>
+                <!-- 遍历list数据 -->
+                <tr th:each="user:${list}">
+                    <th th:text="${user.name}"></th>
+                    <th th:text="${user.age}"></th>
+                    <th th:text="${user.sex}"></th>
+                </tr>
+            </table>
+        </div>
+    </body>
 
-<div class="with:80%">
-    
-</div>
-</body>
     <script>
 
     </script>

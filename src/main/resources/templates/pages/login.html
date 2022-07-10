@@ -65,7 +65,7 @@
                 rJson = $.parseJSON(r.responseText);
                 rCode = rJson.code;
                 if(rCode === "0000"){
-
+                    window.location.href = "/user/list";
                 }else {
                     tishiText("账号或者密码错误")
                 }
