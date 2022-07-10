@@ -85,7 +85,6 @@ public class LoginController {
                     }else {//账号正确密码错误
                         //登录失败则清空session，则需要重新登录
                         session.removeAttribute("vip");
-//                        System.out.println("密码错误！");
                         tr.setCode("0001");
                         tr.setMsg("密码错误");
                     }
