@@ -13,7 +13,7 @@ import lombok.Data;
 @TableName("user")
 public class User {
     @TableId("id")
-    private int id;
+    private Integer id;
     private String name;
     private int sex;
     private String authenCode;

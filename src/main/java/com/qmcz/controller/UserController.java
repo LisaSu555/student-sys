@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,8 +42,14 @@ public class UserController {
 
     @RequestMapping("/add_user")
     @ResponseBody
-    public TransformData<User> AddUser(User user){
+    public TransformData<User> addUser(User user){
         return userService.addUser(user);
+    }
+
+    @ResponseBody
+    @PostMapping("/edit_user")
+    public TransformData<User> editUser(User user){
+        return userService.editUser(user);
     }
 
 }

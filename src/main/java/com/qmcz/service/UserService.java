@@ -12,4 +12,6 @@ public interface UserService {
     TransformData<User> getUserList();
 
     TransformData<User> addUser(User user);
+
+    TransformData<User> editUser(User user);
 }
