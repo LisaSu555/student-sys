@@ -2,7 +2,11 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.qmcz.mapper.UserMapper" >
+<mapper namespace="com.qmcz.mapper.UserMapper">
+    <insert id="addUserByVi" parameterType="com.qmcz.domain.vi.UserVi">
+        insert into user(name, sex, authen_code, age, teacher_id, class_id, subject_id, phone)
+        values(#{name}, #{sex}, #{authenCode}, #{age}, #{teacherId}, #{classId}, #{subjectId}, #{phone})
+    </insert>
 
     <select id="selectUserList" resultType="com.qmcz.domain.User">
         select

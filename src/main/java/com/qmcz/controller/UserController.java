@@ -2,6 +2,7 @@ package com.qmcz.controller;
 
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
+import com.qmcz.domain.vi.UserVi;
 import com.qmcz.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,7 @@ public class UserController {
 
     @RequestMapping("/add_user")
     @ResponseBody
-    public TransformData<User> addUser(User user){
+    public TransformData<User> addUser(UserVi user){
         return userService.addUser(user);
     }
 

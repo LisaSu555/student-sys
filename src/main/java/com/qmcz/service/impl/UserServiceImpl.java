@@ -2,6 +2,7 @@ package com.qmcz.service.impl;
 
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
+import com.qmcz.domain.vi.UserVi;
 import com.qmcz.mapper.UserMapper;
 import com.qmcz.service.UserService;
 import com.qmcz.utils.TimeUtil;
@@ -37,17 +38,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TransformData<User> addUser(User user) {
+    public TransformData<User> addUser(UserVi user) {
         TransformData<User> t = new TransformData<>();
-        int insert_count = userMapper.insert(user);
-        if (insert_count == 0){
+        int insertCount = userMapper.addUserByVi(user);
+        if (insertCount == 0){
             t.setCode("0001");
             t.setMsg("错误，没有插入任何数据");
             t.setRows(null);
-        }else if (insert_count == 1){
-            String time_string = TimeUtil.getNowTimeToSS();
+        }else if (insertCount == 1){
+            String timeString = TimeUtil.getNowTimeToSS();
             t.setCode("0000");
-            t.setMsg("成功插入一条数据,操作时间是"+time_string);
+            t.setMsg("成功插入一条数据,操作时间是"+timeString);
             t.setRows(null);
         }else {
             t.setCode("1111");
