@@ -21,7 +21,6 @@ public class CostController {
 
     @RequestMapping("/query_list")
     public TransformData<Cost> queryCostList(CostVi vi){
-        TransformData<Cost> result = costService.selectCostPage(vi);
-        return result;
+        return costService.selectCostPage(vi);
     }
 }
