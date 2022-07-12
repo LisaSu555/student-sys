@@ -1,5 +1,6 @@
 package com.qmcz.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
 import com.qmcz.domain.vi.UserVi;
@@ -101,5 +102,41 @@ public class UserServiceImpl implements UserService {
             t.setMsg("修改成功");
         }
         return t;
+    }
+
+    @Override
+    public TransformData<User> getUserListApi(User user) {
+        TransformData<User> tr = new TransformData<>();
+        // 这里只需要判断传来的user是否为空
+        if(user == null){
+            // 为空就返回错误
+            tr.setMsg("param not be null");
+            tr.setCode("10001");
+            return tr;
+        }
+        // 传来的user不为空就继续往下面走
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        // user不为空，可以直接调用user的方法，进行比较字段
+        // 一堆额判断
+        if(user.getId() != null){
+            qw.eq("id" , user.getId());
+        }
+        if(user.getName() != null){
+            qw.like("name", user.getName());
+        }
+        if(user.getAuthenCode() != null){
+            qw.like("authen_code", user.getAuthenCode());
+        }
+        if(user.getSex() != null){
+            qw.eq("sex", user.getSex());
+        }
+        // 查询出来的数据
+        List<User> users = userMapper.selectList(qw);
+        // 填充响应对象即可
+        tr.setRows(users);
+        tr.setCode("0000");
+        tr.setMsg("查询成功");
+        // 返回响应对象
+        return tr;
     }
 }

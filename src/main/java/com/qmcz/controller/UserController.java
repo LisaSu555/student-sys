@@ -35,6 +35,12 @@ public class UserController {
         return "pages/user/userList";
     }
 
+    @RequestMapping("/list_api")
+    @ResponseBody
+    public TransformData<User> getUserListApi(User user){
+        return userService.getUserListApi(user);
+    }
+
     @RequestMapping("/to_add_page")
     public String toAddPage(ModelMap modelMap){
         modelMap.addAttribute("test","one");

@@ -29,4 +29,11 @@ public interface UserService {
      * @return 响应对象
      */
     TransformData<User> editUser(User user);
+
+    /**
+     * 接口测试专用
+     * @param user 输入的查询对象，按照输入的对象进行筛选数据
+     * @return userList
+     */
+    TransformData<User> getUserListApi(User user);
 }

@@ -15,7 +15,7 @@ public class User {
     @TableId("id")
     private Integer id;
     private String name;
-    private int sex;
+    private Integer sex;
     private String authenCode;
     private int age;
     private int teacherId;
