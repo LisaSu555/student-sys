@@ -99,6 +99,6 @@ public class UserServiceImpl implements UserService {
             t.setCode("0000");
             t.setMsg("修改成功");
         }
-        return null;
+        return t;
     }
 }
