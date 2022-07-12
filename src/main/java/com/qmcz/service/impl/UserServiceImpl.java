@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -135,7 +136,11 @@ public class UserServiceImpl implements UserService {
         // 填充响应对象即可
         tr.setRows(users);
         tr.setCode("0000");
-        tr.setMsg("查询成功");
+        if(users.isEmpty()){
+            tr.setMsg("没有查询到你想要的数据");
+        }else {
+            tr.setMsg("查询成功");
+        }
         // 返回响应对象
         return tr;
     }
