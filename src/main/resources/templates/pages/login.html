@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<!--<head xmlns:th="http://www.springframework.org/schema/jdbc">-->
-    <!--<meta charset="UTF-8">-->
-    <!--<title>展示页</title>-->
-    <!--<link rel="shortcut icon" href="" type="image/x-icon">-->
-    <!--<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />-->
-    <!--<script type="text/javascript" th:src="@{/js/jquery3.js}"></script>-->
-<!--</head>-->
-<!--<body>-->
-    <!--后台启动成功-->
-<!--</body>-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head xmlns:th="http://www.w3.org/1999/xhtml">
     <meta charset="utf-8">
@@ -32,12 +22,12 @@
         <br/>
         <h2 class="form-signin-heading" style="">请登录</h2>
         <label class="sr-only">账号/用户名</label>
-        <input type="text" style="width: 200px" id="account" onfocus="changeName()" class="form-control" name="name" placeholder="账号" required autofocus>
+        <input type="text" style="width: 200px" id="account" onfocus="clearMsg()" class="form-control" name="name" placeholder="账号" required autofocus>
         <label class="sr-only">密码</label>
-        <input type="password" style="width: 200px" id="psw" onfocus="changePsw()" class="form-control" name="password" placeholder="密码" required>
+        <input type="password" style="width: 200px" id="psw" onfocus="clearMsg()" class="form-control" name="password" placeholder="密码" required>
         <br/>
         <button class="btn btn-primary" id="login" type="button">登录</button>
-        <button class="btn btn-info" id="rest" type="reset">重置</button>
+        <button class="btn btn-info" id="rest" type="reset" onclick="clearMsg()">重置</button>
     </form>
     <br/>
     <div>
@@ -47,41 +37,58 @@
 </div>
 </body>
 <script>
+
+    /**
+     * 页面初始时执行的方法
+     */
     $(function () {
 
     });
 
+    /**
+     * 登录请求后根据后台传来的值进行下一步骤
+     */
     $("#login").click(function () {
+        // 使用ajax异步请求
         $.ajax({
-            url : "/login/authen",//为wed.xml的AjaxServlet的路径
+            //为wed.xml的AjaxServlet的路径
+            url : "/login/authen",
             type : "POST",		//POST方法
+            // 入参对象
             data : {
-                name : $("#account").val(), //获取用户名的值传到AjaxServlet
-                password : $("#psw").val()	//获取密码的值传到AjaxServlet
+                //获取用户名的值传到AjaxServlet
+                name : $("#account").val(),
+                //获取密码的值传到AjaxServlet
+                password : $("#psw").val()
             },
-            dataType : "application/json",		//回传 的值为text
+            // 入参对象格式：json
+            dataType : "application/json",
+            // 完成请求后
             complete: function(r) {
-                //请求完成的处理
+                // 得到响应参数文本值的json对象。即将string转换成json
                 rJson = $.parseJSON(r.responseText);
+                // 得到转化后的json的code属性
                 rCode = rJson.code;
+                // 将code的内容和0000进行比较，是0000表示后台返回正常
                 if(rCode === "0000"){
+                    // 返回正常就跳转到用户列表中
                     window.location.href = "/user/list";
                 }else {
+                    // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
                     tishiText("账号或者密码错误")
                 }
             }
         })
     });
 
-    function changeName(){
+    /**
+     * 账号或者密码输入框发生聚焦时调用该方法
+     * 将提示信息的内容置空
+     */
+    function clearMsg(){
         tishiText("")
     }
-    function changePsw(){
-        tishiText("")
-    }
-    $("#rest").click(function () {
-        tishiText("")
-    });
+
     function tishiText(text) {
         $("#tishi").text(text);
     }
