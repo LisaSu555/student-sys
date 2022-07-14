@@ -42,6 +42,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public TransformData<User> addUser(UserVi user) {
         TransformData<User> t = new TransformData<>();
+        if(user == null || user.getName() == null){
+            t.setCode("3001");
+            t.setMsg("新增的名称不能为空");
+            return t;
+        }
+        // 查询新增的用户名称是否已经存在数据库
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        qw.eq("name", user.getName());
+        List<User> userList = userMapper.selectList(qw);
+        if(userList != null && userList.size() > 0){
+            t.setCode("0002");
+            t.setMsg("该用户已经存在");
+            return t;
+        }
         int insertCount = userMapper.addUserByVi(user);
         if (insertCount == 0){
             t.setCode("0001");
