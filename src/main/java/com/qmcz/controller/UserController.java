@@ -59,4 +59,10 @@ public class UserController {
         return userService.editUser(user);
     }
 
+    @ResponseBody
+    @PostMapping("/delete_user")
+    public TransformData<User> deleteUser(User user){
+        return userService.deleteUser(user);
+    }
+
 }

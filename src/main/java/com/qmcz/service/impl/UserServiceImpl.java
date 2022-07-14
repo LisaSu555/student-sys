@@ -6,12 +6,12 @@ import com.qmcz.domain.User;
 import com.qmcz.domain.vi.UserVi;
 import com.qmcz.mapper.UserMapper;
 import com.qmcz.service.UserService;
+import com.qmcz.utils.DataJudge;
 import com.qmcz.utils.TimeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -94,14 +94,7 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(user, userNeedBeEdit);
         // userNeedBeEdit已经在内存中获得更新，然后写入数据库
         int updateCount = userMapper.updateById(userNeedBeEdit);
-        if(updateCount != 1){
-            t.setCode("1005");
-            t.setMsg("修改用户失败，位置错误");
-            return t;
-        }else {
-            t.setCode("0000");
-            t.setMsg("修改成功");
-        }
+        t = DataJudge.judgeOperateResult(updateCount, "修改", "1005", "失败");
         return t;
     }
 
@@ -142,6 +135,32 @@ public class UserServiceImpl implements UserService {
             tr.setMsg("查询成功");
         }
         // 返回响应对象
+        return tr;
+    }
+
+    @Override
+    public TransformData<User> deleteUser(User user) {
+        TransformData<User> tr = new TransformData<>();
+        if(user == null){
+            tr.setMsg("必要的id参数要填写");
+            tr.setCode("1001");
+            return tr;
+        }
+        if(user.getId() == null){
+            tr.setMsg("必要的id参数要填写");
+            tr.setCode("1002");
+            return tr;
+        }
+        // 所以可以只传来一个id，需要使用id查询这个user，能查到就开始修改
+        User userNeedBeDeleted = userMapper.selectById(user.getId());
+        // 判断传来的对象的id是否存在于数据库
+        if(userNeedBeDeleted == null){
+            tr.setCode("2004");
+            tr.setMsg("删除的用户不存在");
+            return tr;
+        }
+        int deleteCount = userMapper.deleteById(user.getId());
+        tr = DataJudge.judgeOperateResult(deleteCount, "删除", "1001", "失败");
         return tr;
     }
 }

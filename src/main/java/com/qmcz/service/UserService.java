@@ -36,4 +36,11 @@ public interface UserService {
      * @return userList
      */
     TransformData<User> getUserListApi(User user);
+
+    /**
+     * 删除用户，只能删除个用户
+     * @param user 入参对象
+     * @return 删除结果
+     */
+    TransformData<User> deleteUser(User user);
 }
