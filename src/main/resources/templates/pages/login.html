@@ -66,9 +66,9 @@
             // 完成请求后
             complete: function(r) {
                 // 得到响应参数文本值的json对象。即将string转换成json
-                rJson = $.parseJSON(r.responseText);
+                let rJson = $.parseJSON(r.responseText);
                 // 得到转化后的json的code属性
-                rCode = rJson.code;
+                let rCode = rJson.code;
                 // 将code的内容和0000进行比较，是0000表示后台返回正常
                 if(rCode === "0000"){
                     // 返回正常就跳转到用户列表中

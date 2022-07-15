@@ -29,9 +29,11 @@ public class UserController {
 
     @RequestMapping("/list")
     public String getUserList(ModelMap modelMap, User user){
+        String queryName = user.getName();
         TransformData<User> userListTrans = userService.getUserList(user);
         List<User> userList = userListTrans.getRows();
         modelMap.addAttribute("list", userList);
+        modelMap.addAttribute("query", queryName);
         return "pages/user/userList";
     }
 
