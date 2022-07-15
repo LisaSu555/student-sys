@@ -21,3 +21,4 @@ mybatis-plus:
   type-aliases-package: com.qmcz.mapper
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
