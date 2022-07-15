@@ -42,42 +42,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public TransformData<User> addUser(UserVi user) {
         TransformData<User> t = new TransformData<>();
+        // 非空判断
         if(user == null || user.getName() == null){
             t.setCode("3001");
             t.setMsg("新增的名称不能为空");
             return t;
         }
-        // 查询新增的用户名称是否已经存在数据库
+        // 查询新增的用户名称是否已经存在数据库， 即不能添加相同名称的用户
         QueryWrapper<User> qw = new QueryWrapper<>();
         qw.eq("name", user.getName());
         List<User> userList = userMapper.selectList(qw);
+        // 名称相同就直接返回消息
         if(userList != null && userList.size() > 0){
             t.setCode("0002");
             t.setMsg("该用户已经存在");
             return t;
         }
+        // 不为空不相同就执行插入操作
         int insertCount = userMapper.addUserByVi(user);
-        if (insertCount == 0){
-            t.setCode("0001");
-            t.setMsg("错误，没有插入任何数据");
-            t.setRows(null);
-        }else if (insertCount == 1){
-            String timeString = TimeUtil.getNowTimeToSS();
-            t.setCode("0000");
-            t.setMsg("成功插入一条数据,操作时间是"+timeString);
-            t.setRows(null);
-        }else {
-            t.setCode("1111");
-            t.setMsg("错误，后台报错");
-            t.setRows(null);
-        }
+        t = DataJudge.judgeOperateResult(insertCount, "插入", "0001", "失败");
         return t;
     }
 
     @Override
     public TransformData<User> editUser(User user) {
         TransformData<User> t = new TransformData<>();
-        // 不能传来的值是空的（null）
+        // 传来的之不能为空
         if(user==null){
             t.setCode("1002");
             t.setMsg("修改的用户参数必须填写完整");
@@ -125,7 +115,7 @@ public class UserServiceImpl implements UserService {
         // 传来的user不为空就继续往下面走
         QueryWrapper<User> qw = new QueryWrapper<>();
         // user不为空，可以直接调用user的方法，进行比较字段
-        // 一堆额判断
+        // 一堆非空判断，再使用条件等价
         if(user.getId() != null){
             qw.eq("id" , user.getId());
         }
@@ -155,6 +145,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public TransformData<User> deleteUser(User user) {
         TransformData<User> tr = new TransformData<>();
+        // 非空判断
         if(user == null){
             tr.setMsg("必要的id参数要填写");
             tr.setCode("1001");
@@ -165,7 +156,7 @@ public class UserServiceImpl implements UserService {
             tr.setCode("1002");
             return tr;
         }
-        // 所以可以只传来一个id，需要使用id查询这个user，能查到就开始修改
+        // 所以可以只传来一个id，需要使用id查询这个user
         User userNeedBeDeleted = userMapper.selectById(user.getId());
         // 判断传来的对象的id是否存在于数据库
         if(userNeedBeDeleted == null){
