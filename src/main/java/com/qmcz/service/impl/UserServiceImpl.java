@@ -26,9 +26,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public TransformData<User> getUserList(User user) {
         TransformData<User> t = new TransformData<>();
+        // 查询出来所有数据
         List<User> userList = userMapper.selectUserList(user);
         if(userList != null && userList.size()>0){
-            t.setRows(userList);
+            Integer totalPage = (int)Math.ceil((double)userList.size()/user.getPageSize());
+            user.setTotalPage(totalPage);
+            String status = user.getPageStatus();
+            if("u".equals(status)){
+                if(user.getPageNumber() > 0){
+                    user.setPageNumber(user.getPageNumber() - 1);
+                }
+            }
+            if("d".equals(status)){
+                if(user.getPageNumber() < user.getTotalPage()){
+                    user.setPageNumber(user.getPageNumber() + 1);
+                }
+            }
+            // 如果确实存在数据，就按照分页标准截取list
+            List<User> newList = userList.subList((user.getPageNumber()-1)*user.getPageSize(), user.getPageNumber()*user.getPageSize());
+            t.setRows(newList);
             t.setCode("0000");
             t.setMsg("查询到数据了");
         }else{

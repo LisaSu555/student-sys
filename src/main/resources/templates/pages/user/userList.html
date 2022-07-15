@@ -61,6 +61,9 @@
                 </tr>
             </table>
             <div th:align="center" th:if="${#lists.isEmpty(list)}"><font style="color: #0a53be">没有查询到数据</font></div>
+            <div>
+                <a href="/user/list?pageStatus=u">上一页</a>===<a href="/user/list?pageStatus=d">下一页</a>
+            </div>
         </div>
 
         <!-- 模态框（Modal）用户新增和编辑 -->

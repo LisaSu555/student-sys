@@ -22,4 +22,8 @@ public class User {
     private int classId;
     private int subjectId;
     private String phone;
+    private Integer pageSize = 10;
+    private Integer pageNumber = 1;
+    private Integer totalPage = 0;
+    private String pageStatus;
 }
