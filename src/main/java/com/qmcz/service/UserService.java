@@ -12,9 +12,10 @@ public interface UserService {
 
     /**
      * 得到用户列表
+     * @param user 入参对象，查询对象
      * @return 用户列表
      */
-    TransformData<User> getUserList();
+    TransformData<User> getUserList(User user);
 
     /**
      * 新增用户

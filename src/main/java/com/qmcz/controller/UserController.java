@@ -28,8 +28,8 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/list")
-    public String getUserList(ModelMap modelMap){
-        TransformData<User> userListTrans = userService.getUserList();
+    public String getUserList(ModelMap modelMap, User user){
+        TransformData<User> userListTrans = userService.getUserList(user);
         List<User> userList = userListTrans.getRows();
         modelMap.addAttribute("list", userList);
         return "pages/user/userList";

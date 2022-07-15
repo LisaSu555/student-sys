@@ -10,14 +10,28 @@
 
     <body class="container">
         <div><br/></div>
+
         <div>
             <div>
-                <button id="xlsx_down_button">接口文档下载</button>
+                <button id="xlsx_down_button" class="btn btn-success">接口文档下载</button>
             </div>
         </div>
+
+        <div><br/></div>
+
+        <!--    用户名称输入框    -->
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input type="text" id="userNameSearchInput" class="form-control" placeholder="目前只能输入用户名称进行查询，按回车键搜索">
+                <span class="input-group-btn">
+                    <button class="btn" id="userNameSearchButton" type="button">查询</button>
+                </span>
+            </div>
+        </div>
+
         <div><br/></div>
         <div>
-            <table>
+            <table class="table table-hover">
                 <tr>
                     <th width="100">用户id</th>
                     <th width="100">用户名</th>
@@ -42,6 +56,27 @@
         $("#xlsx_down_button").click(function (){
             window.location.href = "/file/download";
         })
+
+        // 输入用户名点击搜索
+        $("#userNameSearchButton").click(function (){
+            let userNameToSearch = $("#userNameSearchInput").val();
+            searchUserByName(userNameToSearch)
+        })
+
+        //  为输入框添加绑定事件，按下回车搜索用户
+        $("#userNameSearchInput").bind('keypress', function (event) {
+            //  获取用户输入框中的值
+            let userNameToSearch = $("#userNameSearchInput").val();
+            //  当键码的值为13时也就意味着是回车，执行控制层方法
+            if (event.keyCode == '13') {
+                searchUserByName(userNameToSearch)
+            }
+        })
+
+        // 搜索用户
+        function searchUserByName(userName){
+            window.location.href = "/user/list?name="+userName;
+        }
     </script>
 </html>
 

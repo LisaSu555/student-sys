@@ -24,10 +24,9 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public TransformData<User> getUserList() {
+    public TransformData<User> getUserList(User user) {
         TransformData<User> t = new TransformData<>();
-
-        List<User> userList = userMapper.selectUserList();
+        List<User> userList = userMapper.selectUserList(user);
         if(userList != null && userList.size()>0){
             t.setRows(userList);
             t.setCode("0000");
