@@ -37,6 +37,7 @@
                     <th width="100">用户名</th>
                     <th width="100">年龄</th>
                     <th width="100">性别</th>
+                    <th width="200">操作</th>
                 </tr>
                 <!-- 遍历list数据 -->
                 <tr th:each="user:${list}">
@@ -45,8 +46,13 @@
                     <th th:text="${user.age}"></th>
                     <th th:if="${user.sex}=='1'">男</th>
                     <th th:if="${user.sex}=='0'">女</th>
+                    <th>
+                        <button type="button" class="btn btn-primary btn-sm">修改</button>
+                        <button type="button" class="btn btn-danger btn-sm">删除</button>
+                    </th>
                 </tr>
             </table>
+            <div th:align="center" th:if="${#lists.isEmpty(list)}"><font style="color: #0a53be">没有查询到数据</font></div>
         </div>
     </body>
 
