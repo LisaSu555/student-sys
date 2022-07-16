@@ -26,4 +26,11 @@ public interface UserMapper extends BaseMapper<User> {
      * @return 插入的数据量
      */
     int addUserByVi(UserVi user);
+
+    /**
+     * 用户账号新增，随着用户信息新增而新增
+     * @param user vi对象，存着密码的
+     * @return 新增数量，一般是1
+     */
+    int insertUserAccount(UserVi user);
 }

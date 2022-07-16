@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class UserVi {
     private Integer id;
+    private Integer userId;
     private String name;
     private int sex;
     private String authenCode;

@@ -11,6 +11,7 @@ import com.qmcz.utils.TimeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public TransformData<User> addUser(UserVi user) {
         TransformData<User> t = new TransformData<>();
         // 非空判断
@@ -71,6 +73,15 @@ public class UserServiceImpl implements UserService {
             }
             // 不为空不相同就执行插入操作
             int insertCount = userMapper.addUserByVi(user);
+            // 插入后得到这个新增的对象
+            User userAdd = userMapper.selectOne(qw);
+            // user即userVi，vi对象得到user的id，准备插入userAccount表
+            user.setUserId(userAdd.getId());
+            int vii = userMapper.insertUserAccount(user);
+            TransformData vit = DataJudge.judgeOperateResult(vii, "账户新增", "4001", "失败");
+            if(vit.getCode().equals("4001")){
+                return vit;
+            }
             t = DataJudge.judgeOperateResult(insertCount, "插入", "0001", "失败");
         }
         return t;

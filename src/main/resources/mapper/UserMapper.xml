@@ -7,6 +7,9 @@
         insert into user(name, sex, authen_code, age, teacher_id, class_id, subject_id, phone)
         values(#{name}, #{sex}, #{authenCode}, #{age}, #{teacherId}, #{classId}, #{subjectId}, #{phone})
     </insert>
+    <insert id="insertUserAccount" parameterType="com.qmcz.domain.vi.UserVi">
+        insert into user_account(user_id , psw) values(#{user.userId} , #{user.password})
+    </insert>
 
     <select id="selectUserList" resultType="com.qmcz.domain.User" parameterType="com.qmcz.domain.User">
         select
