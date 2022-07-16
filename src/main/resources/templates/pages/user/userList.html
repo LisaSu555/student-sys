@@ -339,10 +339,13 @@
                         // 得到转化后的json的code属性
                         let rCode = rJson.code;
                         if(rCode === "0000"){
+                            alert("删除成功！")
                             window.location.href = "/user/list";
-                        }else {
+                        }else if(rCode === "9999"){
                             // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
-                            alert("未知错误")
+                            alert("登录账号不能删除！")
+                        }else{
+                            alert("位置错误")
                         }
                     }
                 })

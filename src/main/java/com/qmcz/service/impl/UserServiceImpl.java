@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
 import com.qmcz.domain.vi.UserVi;
+import com.qmcz.domain.vo.UserAccount;
+import com.qmcz.mapper.NormalQueryMapper;
 import com.qmcz.mapper.UserMapper;
 import com.qmcz.service.UserService;
 import com.qmcz.utils.DataJudge;
@@ -23,6 +25,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private NormalQueryMapper normalQueryMapper;
 
     @Override
     public TransformData<User> getUserList(User user) {
@@ -181,6 +186,14 @@ public class UserServiceImpl implements UserService {
         }
         // 所以可以只传来一个id，需要使用id查询这个user
         User userNeedBeDeleted = userMapper.selectById(user.getId());
+        List<UserAccount> userAccountList = normalQueryMapper.selectData();
+        for(UserAccount ua : userAccountList){
+            if(ua.getName().equals(userNeedBeDeleted.getName())){
+                tr.setCode("9999");
+                tr.setMsg("登录账号，不能删除！");
+                return tr;
+            }
+        }
         // 判断传来的对象的id是否存在于数据库
         if(userNeedBeDeleted == null){
             tr.setCode("2004");
