@@ -70,6 +70,22 @@
                     <li th:name="pageNumber"><a href="/user/list?pageNumber=3">3</a></li>
                     <li th:name="pageNumber"><a href="/user/list?pageNumber=4">4</a></li>
                     <li th:name="pageNumber"><a href="/user/list?pageNumber=5">5</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=6">6</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=7">7</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=8">8</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=9">9</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=10">10</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=11">11</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=12">12</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=13">13</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=14">14</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=15">15</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=16">16</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=17">17</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=18">18</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=19">19</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=20">20</a></li>
+                    <li th:name="pageNumber"><a href="/user/list?pageNumber=21">21</a></li>
                     <li><a href="#">&raquo;</a></li>
                 </ul>
             </div>
@@ -95,19 +111,17 @@
                             <input type="text" style="width: 50%" id="account" onfocus="" class="form-control" name="name" required>
                             密码
                             <input type="text" style="width: 50%" id="psw" onfocus="" class="form-control" name="password" required>
-                            确认密码
-                            <input type="text" style="width: 50%" id="re_psw" onfocus="" class="form-control" name="rePaw" required>
 
-                            性别
+                            性别<br/>
                             <label class="radio-inline">
-                                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1"> 男
+                                <input type="radio" name="sex" id="sex" value="1"> 男
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0"> 女
+                                <input type="radio" name="sex" id="sex2" value="0"> 女
                             </label>
                             <br/>
                             年龄
-                            <input type="text" style="width: 50%" id="age" onfocus="" class="form-control" name="sex" required>
+                            <input type="text" style="width: 50%" id="age" onfocus="" class="form-control" name="age" value="" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -221,7 +235,14 @@
                         console.log(user)
                         $("#account").val(user.name);
                         $("#psw").val(user.password);
-                        $("#sex").val();
+                        if(user.sex == 0){
+                            $('input[type=radio]').get(0).checked = false;
+                            $('input[type=radio]').get(1).checked = true;
+                        }else{
+                            $('input[type=radio]').get(0).checked = true;
+                            $('input[type=radio]').get(1).checked = false;
+                        }
+
                         $("#age").val(user.age);
                     }else {
                         // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
@@ -239,6 +260,10 @@
             $("#age").val("");
         }
 
+        // 删除一条数据
+        function deleteUser(id){
+
+        }
     </script>
 </html>
 
