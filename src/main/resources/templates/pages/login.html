@@ -1,49 +1,97 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head xmlns:th="http://www.w3.org/1999/xhtml">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>随便的一个登录页面</title>
-
-    <!-- Bootstrap core CSS -->
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<html lang="en">
+<head>
+    <title>学生信息管理而已</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" th:src="@{/js/jquery3.js}"></script>
+    <style type="text/css">
+        .login-wrapper {
+            width: 100vw;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .login {
+            background: rgba(0,206,209, 0.6);
+        }
+
+        .slide-img {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+        .btn-mybg {
+            color: #fff;
+            background-color: #66CDAA;
+            border: none;
+        }
+
+        .btn-mybg:hover {
+            color: #fff;
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="container">
-    <form class="form-signin" method="post" action="/login/authen" style="">
-        <br/>
-        <h2 class="form-signin-heading" style="">请登录</h2>
-        <label class="sr-only">账号/用户名</label>
-        <input type="text" style="width: 200px" id="account" onfocus="clearMsg()" class="form-control" name="name" placeholder="账号" required autofocus>
-        <label class="sr-only">密码</label>
-        <input type="password" style="width: 200px" id="psw" onfocus="clearMsg()" class="form-control" name="password" placeholder="密码" required>
-        <br/>
-        <button class="btn btn-primary" id="login" type="button">登录</button>
-        <button class="btn btn-info" id="rest" type="reset" onclick="clearMsg()">重置</button>
-    </form>
-    <br/>
-    <div>
-        <label id="tishi" style="color: red" class="sr-only"></label>
+<!--轮播开始-->
+<!--设置position-absolute或position-fixed使得背景位于登录表单下方-->
+<div id="mySlider" class="carousel slide h-100 position-fixed" data-ride="carousel">
+    <ol class="carousel-indicators position-fixed">
+        <li data-target="#mySlider" data-slide-to="0"></li>
+        <li data-target="#mySlider" data-slide-to="1" class="active"></li>
+        <li data-target="#mySlider" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="slide-img" src="img/1.jpeg" />
+        </div>
+        <div class="carousel-item">
+            <img class="slide-img" src="img/2.jpeg" />
+        </div>
+        <div class="carousel-item">
+            <img class="slide-img" src="img/3.jpeg" />
+        </div>
     </div>
-
+    <a class="carousel-control-prev position-fixed" href="#mySlider" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">上一个</span>
+    </a>
+    <a class="carousel-control-next position-fixed" href="#mySlider" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">下一个</span>
+    </a>
+</div>
+<!--轮播结束-->
+<!--表单开始 -->
+<div class="d-flex justify-content-center login-wrapper">
+    <div class="col-sm-8 col-md-6 col-xl-4 p-4 card align-self-center login">
+        <div class="card-header text-center bg-transparent">
+            <h4 class="mb-0">登录</h4>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="form-group text-left">
+                    <input type="text" class="form-control required" placeholder="用户名" id="account" autocomplete="off" name="name" autofocus="autofocus" maxlength="32">
+                </div>
+                <div class="form-group text-left">
+                    <input type="password" class="form-control required" id="psw" name="password" placeholder="密码" maxlength="32">
+                </div>
+                <div class="">
+                    <button type="button" id="login" class="btn btn-mybg btn-block" >登&nbsp;&nbsp;录</button>
+                </div>
+            </form>
+        </div>
+        <div align="center">
+            <label id="tishi" style="color: #fff200"></label>
+        </div>
+    </div>
 </div>
 </body>
 <script>
-
-    /**
-     * 页面初始时执行的方法
-     */
-    $(function () {
-
-    });
 
     /**
      * 登录请求后根据后台传来的值进行下一步骤
@@ -79,7 +127,7 @@
                 }
             }
         })
-    });
+    })
 
     /**
      * 账号或者密码输入框发生聚焦时调用该方法
