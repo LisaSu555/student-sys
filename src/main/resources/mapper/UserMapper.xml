@@ -18,5 +18,6 @@
         <if test="user.name != null and user.name != '' ">
             and s.name like concat('%', #{user.name}, '%')
         </if>
+        limit #{user.pageStart} , #{user.pageSize}
     </select>
 </mapper>

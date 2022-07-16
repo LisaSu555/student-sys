@@ -1,5 +1,6 @@
 package com.qmcz.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -22,8 +23,10 @@ public class User {
     private int classId;
     private int subjectId;
     private String phone;
-    private Integer pageSize = 10;
-    private Integer pageNumber = 1;
-    private Integer totalPage = 0;
-    private String pageStatus;
+    @TableField(exist = false)
+    private Integer pageSize = 5;
+    @TableField(exist = false)
+    private Integer pageNumber;
+    @TableField(exist = false)
+    private Integer pageStart;
 }
