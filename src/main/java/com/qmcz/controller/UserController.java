@@ -31,9 +31,13 @@ public class UserController {
     public String getUserList(ModelMap modelMap, User user){
         String queryName = user.getName();
         TransformData<User> userListTrans = userService.getUserList(user);
+        TransformData<User> userListApi = userService.getUserListApi(null);
         List<User> userList = userListTrans.getRows();
+        int dataCount = userListApi.getRows().size();
+        int pageCount = (int)Math.ceil(dataCount / 5.0);
         modelMap.addAttribute("list", userList);
         modelMap.addAttribute("query", queryName);
+        modelMap.addAttribute("userListSize", pageCount);
         return "pages/user/userList";
     }
 

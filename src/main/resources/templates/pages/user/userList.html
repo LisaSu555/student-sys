@@ -64,30 +64,9 @@
             </table>
             <div th:align="center" th:if="${#lists.isEmpty(list)}"><font style="color: #0a53be">没有查询到数据</font></div>
             <div>
-                <ul class="pagination">
-                    <li><a href="#">&laquo;</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=1">1</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=2">2</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=3">3</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=4">4</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=5">5</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=6">6</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=7">7</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=8">8</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=9">9</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=10">10</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=11">11</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=12">12</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=13">13</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=14">14</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=15">15</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=16">16</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=17">17</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=18">18</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=19">19</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=20">20</a></li>
-                    <li th:name="pageNumber"><a href="/user/list?pageNumber=21">21</a></li>
-                    <li><a href="#">&raquo;</a></li>
+                <ul id="pageButtonArea" class="pagination">
+<!--                    <li><a href="#">&laquo;</a></li>-->
+<!--                    <li><a href="#">&raquo;</a></li>-->
                 </ul>
             </div>
         </div>
@@ -162,6 +141,32 @@
     </body>
 
     <script>
+
+        // 初始化页面时运行
+        $(function (){
+            // 加载分页按钮
+            pageButtonView()
+        })
+
+        // 分页按钮按照实际数据量显示
+        function pageButtonView(){
+            // 获取分页数量（后台计算后传来）
+            let size = [[${userListSize}]];
+            // 设置分页按钮html处的html显示，声明一个字符变量
+            let pageButtonAreaHtml = '<li><a href="/user/list?pageNumber=1">首页</a></li>';
+            pageButtonAreaHtml += '<li><a href="#">&laquo;</a></li>';
+            // 循环添加
+            for (let index = 0; index < size; index++){
+                // 先计算好number再填给html
+                let number = index + 1;
+                pageButtonAreaHtml += '<li th:name="pageNumber"><a href="/user/list?pageNumber='+number+'">'+number+'</a></li>';
+            }
+            // 结尾添加
+            pageButtonAreaHtml += '<li><a href="#">&raquo;</a></li>';
+            pageButtonAreaHtml += '<li><a href="/user/list?pageNumber='+size+'">尾页</a></li>';
+            // 将html代码赋值给代码区域
+            $("#pageButtonArea").html(pageButtonAreaHtml);
+        }
 
         // 点击接口文档下载按键后触发方法
         $("#xlsx_down_button").click(function (){
@@ -286,7 +291,6 @@
 
         // 删除一条数据
         function deleteUser2(id){
-
             // 使用ajax异步请求
             $.ajax({
                 //为wed.xml的AjaxServlet的路径

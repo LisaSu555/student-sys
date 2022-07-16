@@ -133,28 +133,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public TransformData<User> getUserListApi(User user) {
         TransformData<User> tr = new TransformData<>();
-        // 这里只需要判断传来的user是否为空
-        if(user == null){
-            // 为空就返回错误
-            tr.setMsg("param not be null");
-            tr.setCode("10001");
-            return tr;
-        }
         // 传来的user不为空就继续往下面走
         QueryWrapper<User> qw = new QueryWrapper<>();
         // user不为空，可以直接调用user的方法，进行比较字段
         // 一堆非空判断，再使用条件等价
-        if(user.getId() != null){
-            qw.eq("id" , user.getId());
-        }
-        if(user.getName() != null){
-            qw.like("name", user.getName());
-        }
-        if(user.getAuthenCode() != null){
-            qw.like("authen_code", user.getAuthenCode());
-        }
-        if(user.getSex() != null){
-            qw.eq("sex", user.getSex());
+        if(user != null){
+            if(user.getId() != null){
+                qw.eq("id" , user.getId());
+            }
+            if(user.getName() != null){
+                qw.like("name", user.getName());
+            }
+            if(user.getAuthenCode() != null){
+                qw.like("authen_code", user.getAuthenCode());
+            }
+            if(user.getSex() != null){
+                qw.eq("sex", user.getSex());
+            }
         }
         // 查询出来的数据
         List<User> users = userMapper.selectList(qw);
