@@ -57,7 +57,8 @@
                     <th>
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
                                 th:onclick="'editUser('+${user.id}+')'">修改</button>
-                        <button type="button" class="btn btn-danger btn-sm">删除</button>
+                        <button type="button" class="btn btn-danger btn-sm"
+                                th:onclick="'deleteUser('+${user.id}+')'">删除</button>
                     </th>
                 </tr>
             </table>
@@ -134,6 +135,29 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- 删除提示框 -->
+        <div class="modal fade" id="delcfmModel">
+            <div class="modal-dialog">
+                <div class="modal-content message_align">
+                    <div class="modal-header">
+                        <h4 class="modal-title">确认信息</h4>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">×</span></button>            </div>
+                    <div class="modal-body">
+                        <p id="delcfmMsg">您确认要删除吗？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <a class="btn btn-success" data-dismiss="modal" id="btnOkDelete" >确定</a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
 
     </body>
 
@@ -261,9 +285,70 @@
         }
 
         // 删除一条数据
-        function deleteUser(id){
+        function deleteUser2(id){
 
+            // 使用ajax异步请求
+            $.ajax({
+                //为wed.xml的AjaxServlet的路径
+                url : "/user/delete_user",
+                type : "POST",		//POST方法
+                // 入参对象
+                data : {
+                    //获取用户名的值传到AjaxServlet
+                    id : id
+                },
+                // 入参对象格式：json
+                dataType : "application/json",
+                // 完成请求后
+                complete: function(r) {
+                    // 得到响应参数文本值的json对象。即将string转换成json
+                    let rJson = $.parseJSON(r.responseText);
+                    // 得到转化后的json的code属性
+                    let rCode = rJson.code;
+                    if(rCode === "0000"){
+                        window.location.href = "/user/list";
+                    }else {
+                        // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
+                        alert("未知错误")
+                    }
+                }
+            })
         }
+
+        // 删除一条数据
+        function deleteUser(id){
+            //弹出提示框
+            $('#delcfmModel').modal({ backdrop: 'static', keyboard: false }).one('click', '#btnOkDelete', function() {
+                //这里放入点击确认后的代码
+                // 使用ajax异步请求
+                $.ajax({
+                    //为wed.xml的AjaxServlet的路径
+                    url : "/user/delete_user",
+                    type : "POST",		//POST方法
+                    // 入参对象
+                    data : {
+                        //获取用户名的值传到AjaxServlet
+                        id : id
+                    },
+                    // 入参对象格式：json
+                    dataType : "application/json",
+                    // 完成请求后
+                    complete: function(r) {
+                        // 得到响应参数文本值的json对象。即将string转换成json
+                        let rJson = $.parseJSON(r.responseText);
+                        // 得到转化后的json的code属性
+                        let rCode = rJson.code;
+                        if(rCode === "0000"){
+                            window.location.href = "/user/list";
+                        }else {
+                            // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
+                            alert("未知错误")
+                        }
+                    }
+                })
+            });
+        }
+
     </script>
 </html>
 
