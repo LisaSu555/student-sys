@@ -100,10 +100,10 @@
 
                             性别
                             <label class="radio-inline">
-                                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 男
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1"> 男
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 女
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0"> 女
                             </label>
                             <br/>
                             年龄
@@ -159,6 +159,7 @@
                 type : "POST",		//POST方法
                 // 入参对象
                 data : {
+                    id : $("#hiddenIdInput").val(),
                     //获取用户名的值传到AjaxServlet
                     name : $("#account").val(),
                     //获取密码的值传到AjaxServlet

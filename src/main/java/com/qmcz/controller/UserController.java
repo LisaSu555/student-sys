@@ -52,6 +52,7 @@ public class UserController {
     @RequestMapping("/add_user")
     @ResponseBody
     public TransformData<User> addUser(UserVi user){
+        //int i = 1 / 0;
         return userService.addUser(user);
     }
 

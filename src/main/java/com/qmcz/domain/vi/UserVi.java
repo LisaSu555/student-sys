@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class UserVi {
+    private Integer id;
     private String name;
     private int sex;
     private String authenCode;
@@ -17,4 +18,5 @@ public class UserVi {
     private int classId;
     private int subjectId;
     private String phone;
+    private String password;
 }

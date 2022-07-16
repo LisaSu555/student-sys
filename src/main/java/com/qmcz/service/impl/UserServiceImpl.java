@@ -52,19 +52,27 @@ public class UserServiceImpl implements UserService {
             t.setMsg("新增的名称不能为空");
             return t;
         }
-        // 查询新增的用户名称是否已经存在数据库， 即不能添加相同名称的用户
-        QueryWrapper<User> qw = new QueryWrapper<>();
-        qw.eq("name", user.getName());
-        List<User> userList = userMapper.selectList(qw);
-        // 名称相同就直接返回消息
-        if(userList != null && userList.size() > 0){
-            t.setCode("0002");
-            t.setMsg("该用户已经存在");
-            return t;
+        // 传来的数据中有id说明需要修改
+        if(user.getId() != null){
+            User userTarget = new User();
+            BeanUtils.copyProperties(user, userTarget);
+            int i = userMapper.updateById(userTarget);
+            t = DataJudge.judgeOperateResult(i, "修改", "1001", "失败");
+        }else{
+            // 查询新增的用户名称是否已经存在数据库， 即不能添加相同名称的用户
+            QueryWrapper<User> qw = new QueryWrapper<>();
+            qw.eq("name", user.getName());
+            List<User> userList = userMapper.selectList(qw);
+            // 名称相同就直接返回消息
+            if(userList != null && userList.size() > 0){
+                t.setCode("0002");
+                t.setMsg("该用户已经存在");
+                return t;
+            }
+            // 不为空不相同就执行插入操作
+            int insertCount = userMapper.addUserByVi(user);
+            t = DataJudge.judgeOperateResult(insertCount, "插入", "0001", "失败");
         }
-        // 不为空不相同就执行插入操作
-        int insertCount = userMapper.addUserByVi(user);
-        t = DataJudge.judgeOperateResult(insertCount, "插入", "0001", "失败");
         return t;
     }
 
