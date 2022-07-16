@@ -10,6 +10,9 @@
     <insert id="insertUserAccount" parameterType="com.qmcz.domain.vi.UserVi">
         insert into user_account(user_id , psw) values(#{user.userId} , #{user.password})
     </insert>
+    <delete id="deleteUserAccount" parameterType="int">
+        delete from user_account where user_id = #{id}
+    </delete>
 
     <select id="selectUserList" resultType="com.qmcz.domain.User" parameterType="com.qmcz.domain.User">
         select
@@ -22,5 +25,20 @@
             and s.name like concat('%', #{user.name}, '%')
         </if>
         limit #{user.pageStart} , #{user.pageSize}
+    </select>
+    <select id="selectUserForEdit" resultType="com.qmcz.domain.vo.UserVoEdit">
+        select
+            u.name,
+            u.age,
+            u.sex,
+            a.psw as password
+        from
+            user u
+        inner join
+            user_account a
+        on
+            u.id = a.user_id
+        where
+            u.id = #{user.id}
     </select>
 </mapper>

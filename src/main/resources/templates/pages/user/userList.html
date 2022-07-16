@@ -94,10 +94,10 @@
 
                             性别<br/>
                             <label class="radio-inline">
-                                <input type="radio" name="sex" id="sex" value="1"> 男
+                                <input type="radio" name="sex" value="1"> 男
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="sex" id="sex2" value="0"> 女
+                                <input type="radio" name="sex" value="0"> 女
                             </label>
                             <br/>
                             年龄
@@ -207,7 +207,7 @@
                     name : $("#account").val(),
                     //获取密码的值传到AjaxServlet
                     password : $("#psw").val(),
-                    sex : $("#sex").val(),
+                    sex : $("input[name='sex'][checked]").val(),
                     age : $("#age").val()
                 },
                 // 入参对象格式：json
@@ -220,6 +220,7 @@
                     let rCode = rJson.code;
                     if(rCode === "0000"){
                         // 返回正常就跳转到用户列表中
+                        alert("ok");
                         window.location.href = "/user/list";
                     }else {
                         // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
@@ -244,7 +245,7 @@
             // 使用ajax异步请求
             $.ajax({
                 //为wed.xml的AjaxServlet的路径
-                url : "/user/list_api",
+                url : "/user/list_ajax",
                 type : "POST",		//POST方法
                 // 入参对象
                 data : {
@@ -347,7 +348,7 @@
                             window.location.href = "/user/list";
                         }else if(rCode === "9999"){
                             // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
-                            alert("登录账号不能删除！")
+                            alert("不能删除当前登录的用户！")
                         }else{
                             alert("位置错误")
                         }

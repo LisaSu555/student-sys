@@ -3,6 +3,7 @@ package com.qmcz.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qmcz.domain.User;
 import com.qmcz.domain.vi.UserVi;
+import com.qmcz.domain.vo.UserVoEdit;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -32,5 +33,19 @@ public interface UserMapper extends BaseMapper<User> {
      * @param user vi对象，存着密码的
      * @return 新增数量，一般是1
      */
-    int insertUserAccount(UserVi user);
+    int insertUserAccount(@Param("user") UserVi user);
+
+    /**
+     * 删除账户
+     * @param id 用户信息表的id，关联上账户user_id
+     * @return 删除数量，一般是1
+     */
+    int deleteUserAccount(@Param("id") Integer id);
+
+    /**
+     * 用户编辑时的回显对象
+     * @param user 入参
+     * @return 用户vo对象
+     */
+    List<UserVoEdit> selectUserForEdit(@Param("user") User user);
 }

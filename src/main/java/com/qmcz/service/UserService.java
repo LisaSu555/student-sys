@@ -3,6 +3,7 @@ package com.qmcz.service;
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
 import com.qmcz.domain.vi.UserVi;
+import com.qmcz.domain.vo.UserVoEdit;
 
 /**
  * @author pcf
@@ -44,4 +45,11 @@ public interface UserService {
      * @return 删除结果
      */
     TransformData<User> deleteUser(User user);
+
+    /**
+     * ajax 请求得到userList
+     * @param user 入参对象
+     * @return 传输对象
+     */
+    TransformData<UserVoEdit> getUserListAjax(User user);
 }

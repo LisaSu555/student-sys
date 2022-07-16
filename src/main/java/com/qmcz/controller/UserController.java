@@ -2,8 +2,11 @@ package com.qmcz.controller;
 
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
+import com.qmcz.domain.vi.LoginUser;
 import com.qmcz.domain.vi.UserVi;
+import com.qmcz.domain.vo.UserVoEdit;
 import com.qmcz.service.UserService;
+import com.qmcz.utils.UserGenerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +48,13 @@ public class UserController {
     @ResponseBody
     public TransformData<User> getUserListApi(User user){
         return userService.getUserListApi(user);
+    }
+
+    @RequestMapping("/list_ajax")
+    @ResponseBody
+    public TransformData<UserVoEdit> getUserListAjax(User user){
+        TransformData<UserVoEdit> userListAjax = userService.getUserListAjax(user);
+        return userListAjax;
     }
 
     @RequestMapping("/to_add_page")

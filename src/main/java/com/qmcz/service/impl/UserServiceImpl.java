@@ -3,13 +3,16 @@ package com.qmcz.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
+import com.qmcz.domain.vi.LoginUser;
 import com.qmcz.domain.vi.UserVi;
 import com.qmcz.domain.vo.UserAccount;
+import com.qmcz.domain.vo.UserVoEdit;
 import com.qmcz.mapper.NormalQueryMapper;
 import com.qmcz.mapper.UserMapper;
 import com.qmcz.service.UserService;
 import com.qmcz.utils.DataJudge;
 import com.qmcz.utils.TimeUtil;
+import com.qmcz.utils.UserGenerUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public TransformData<User> addUser(UserVi user) {
         TransformData<User> t = new TransformData<>();
         // 非空判断
@@ -166,6 +169,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public TransformData<User> deleteUser(User user) {
         TransformData<User> tr = new TransformData<>();
         // 非空判断
@@ -181,22 +185,32 @@ public class UserServiceImpl implements UserService {
         }
         // 所以可以只传来一个id，需要使用id查询这个user
         User userNeedBeDeleted = userMapper.selectById(user.getId());
-        List<UserAccount> userAccountList = normalQueryMapper.selectData();
-        for(UserAccount ua : userAccountList){
-            if(ua.getName().equals(userNeedBeDeleted.getName())){
-                tr.setCode("9999");
-                tr.setMsg("登录账号，不能删除！");
-                return tr;
-            }
-        }
         // 判断传来的对象的id是否存在于数据库
         if(userNeedBeDeleted == null){
             tr.setCode("2004");
             tr.setMsg("删除的用户不存在");
             return tr;
+        }else{
+            LoginUser currentUser = UserGenerUtil.getCurrentUser();
+            if(currentUser.getName().equals(userNeedBeDeleted.getName())){
+                tr.setCode("9999");
+                tr.setMsg("不能删除当前登录的用户");
+                return tr;
+            }
         }
         int deleteCount = userMapper.deleteById(user.getId());
+        int deleteUserAccount = userMapper.deleteUserAccount(user.getId());
         tr = DataJudge.judgeOperateResult(deleteCount, "删除", "1001", "失败");
+        return tr;
+    }
+
+    @Override
+    public TransformData<UserVoEdit> getUserListAjax(User user) {
+        TransformData<UserVoEdit> tr = new TransformData<>();
+        List<UserVoEdit> userVoEdits = userMapper.selectUserForEdit(user);
+        tr.setRows(userVoEdits);
+        tr.setCode("0000");
+        tr.setMsg("查询成功");
         return tr;
     }
 }
