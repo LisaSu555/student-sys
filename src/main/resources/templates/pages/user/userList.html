@@ -11,7 +11,9 @@
         <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <style>
-
+            .liantong {
+                background-color: #ff7525 ;
+            }
         </style>
     </head>
 
@@ -65,6 +67,7 @@
             <div th:align="center" th:if="${#lists.isEmpty(list)}"><font style="color: #0a53be">没有查询到数据</font></div>
             <div>
                 <ul id="pageButtonArea" class="pagination">
+
                 </ul>
             </div>
         </div>
@@ -143,11 +146,24 @@
         // 全局变量控制分页按钮展示
         let globalPageButtonNumber = 0;
         let globalPageLoopCount = 5;
+        let globalCurrentPageNumber = 1;
         // 初始化页面时运行
         $(function (){
             // 加载分页按钮
             pageButtonView()
+            setButtonColor()
         })
+
+        // 显示当前选中的按钮
+        function setButtonColor(){
+            $('a').click(function(){
+                //先设置点击的按钮颜色变为粉色
+                $(this).css('background','pink');
+                //再设置除了当前元素的其他兄弟元素的颜色为“空”
+                //siblings是选中当前元素的所有兄弟元素（除去当前元素）
+                $(this).siblings('button').css('background','');
+            });
+        }
 
         // 分页按钮按照实际数据量显示
         function pageButtonView(){
@@ -162,7 +178,7 @@
                 for (let index = 0; index < size; index++){
                     // 先计算好number再填给html
                     let number = index + 1;
-                    pageButtonAreaHtml += '<li th:name="pageNumber"><a href="/user/list?pageNumber='+number+'">'+number+'</a></li>';
+                    pageButtonAreaHtml += '<li><a name="pageNumber" href="/user/list?pageNumber='+number+'">'+number+'</a></li>';
                 }
             }else{
                 // 超过五页就显示切换按钮的箭头图标
@@ -195,6 +211,7 @@
         function changePageButtonDown(){
             // 获取数据页数
             let pageCount = [[${userListSize}]];
+            // 分页按钮最大值不能超过数据数量的分页数量，globalPageButtonNumber表示每组按钮启示标号，每一组五个所以加五表示一组中最大值
             if(globalPageButtonNumber+5 >= pageCount){
                 return false;
             }
@@ -206,15 +223,23 @@
             pageButtonView();
         }
 
+        // 单独出来一个组成html的方法
         function composeHtml(){
             let pageButtonAreaHtml = '';
             // 循环添加
             for (let i = globalPageButtonNumber; i < globalPageButtonNumber+globalPageLoopCount; i++){
                 // 先计算好number再填给html
                 let number = i + 1;
-                pageButtonAreaHtml += '<li th:name="pageNumber"><a href="/user/list?pageNumber='+number+'">'+number+'</a></li>';
+                pageButtonAreaHtml += '<li onclick="setColorForPageButton()"><a name="pageNumber" href="/user/list?pageNumber='+number+'">'+number+'</a></li>';
             }
+            pageButtonAreaHtml += '<li id="man"><a style="background-color: #6cc2a4">888</a></li>';
             return pageButtonAreaHtml;
+        }
+
+        // 赋值全局变量
+        function setColorForPageButton(){
+            globalCurrentPageNumber = [[${currentPageNumber}]];
+            console.log("当前页数"+globalCurrentPageNumber);
         }
 
         // 点击接口文档下载按键后触发方法
@@ -282,10 +307,6 @@
                 }
             })
         }
-
-        $('li[name="pageNumber"]').click(function (){
-            $(this).css('active', false);
-        })
 
         // 方法名称不高亮因为调用时的特殊性
         // 点击编辑后查询出这个id的用户数据

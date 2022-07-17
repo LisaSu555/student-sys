@@ -41,6 +41,7 @@ public class UserController {
         modelMap.addAttribute("list", userList);
         modelMap.addAttribute("query", queryName);
         modelMap.addAttribute("userListSize", pageCount);
+        modelMap.addAttribute("currentPageNumber", user.getPageNumber());
         return "pages/user/userList";
     }
 
