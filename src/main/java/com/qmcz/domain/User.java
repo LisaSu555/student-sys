@@ -24,7 +24,7 @@ public class User {
     private int subjectId;
     private String phone;
     @TableField(exist = false)
-    private Integer pageSize = 5;
+    private Integer pageSize = 10;
     @TableField(exist = false)
     private Integer pageNumber;
     @TableField(exist = false)

@@ -37,7 +37,7 @@ public class UserController {
         TransformData<User> userListApi = userService.getUserListApi(null);
         List<User> userList = userListTrans.getRows();
         int dataCount = userListApi.getRows().size();
-        int pageCount = (int)Math.ceil(dataCount / 5.0);
+        int pageCount = (int)Math.ceil(dataCount / 10.0);
         modelMap.addAttribute("list", userList);
         modelMap.addAttribute("query", queryName);
         modelMap.addAttribute("userListSize", pageCount);
