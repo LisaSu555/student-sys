@@ -232,14 +232,26 @@
                 let number = i + 1;
                 pageButtonAreaHtml += '<li onclick="setColorForPageButton()"><a name="pageNumber" href="/user/list?pageNumber='+number+'">'+number+'</a></li>';
             }
-            pageButtonAreaHtml += '<li id="man"><a style="background-color: #6cc2a4">888</a></li>';
+            // pageButtonAreaHtml += '<li id="man"><a style="background-color: #6cc2a4">888</a></li>';
             return pageButtonAreaHtml;
         }
 
         // 赋值全局变量
         function setColorForPageButton(){
-            globalCurrentPageNumber = [[${currentPageNumber}]];
-            console.log("当前页数"+globalCurrentPageNumber);
+            // globalCurrentPageNumber = [[${currentPageNumber}]];
+            // let buttons = $('a[name="pageNumber"]');
+            // // buttons.forEach((item, index, arr) => {
+            // //     console.log(item.innerHTML);
+            // // });
+            // let p = globalCurrentPageNumber;
+            // $.each(buttons, function (i, item) {
+            //     let current = item.innerHTML;
+            //     p = p+"";
+            //     current = current+"";
+            //     if(p === current){
+            //         item.css('background','pink');
+            //     }
+            // });
         }
 
         // 点击接口文档下载按键后触发方法

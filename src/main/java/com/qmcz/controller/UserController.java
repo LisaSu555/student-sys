@@ -51,11 +51,27 @@ public class UserController {
         return userService.getUserListApi(user);
     }
 
+    /**
+     * 编辑使用的ajax
+     * @param user 入参
+     * @return 出参
+     */
     @RequestMapping("/list_ajax")
     @ResponseBody
     public TransformData<UserVoEdit> getUserListAjax(User user){
         TransformData<UserVoEdit> userListAjax = userService.getUserListAjax(user);
         return userListAjax;
+    }
+
+    /**
+     * 分页查询时防止页面跳转而刷新数据
+     * @param user 入参
+     * @return 出参
+     */
+    @RequestMapping("/list_page_ajax")
+    @ResponseBody
+    public TransformData<User> getListForPageAjax(User user){
+        return userService.getUserList(user);
     }
 
     @RequestMapping("/to_add_page")
