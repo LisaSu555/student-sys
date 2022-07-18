@@ -1,7 +1,7 @@
 package com.qmcz.input;
 
 import com.qmcz.utils.InputTools;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Test01 {
     @Test
