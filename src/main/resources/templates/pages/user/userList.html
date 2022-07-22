@@ -16,7 +16,11 @@
     </head>
 
     <body class="container">
-        <div><br/></div>
+        <div id="html_core">
+
+        </div>
+
+<!--        <div><br/></div>-->
 
         <div>
             <div>
@@ -151,6 +155,7 @@
             // 加载分页按钮
             pageButtonView()
             //setButtonColor()
+            $('#html_core').load('/other/daohang');
         })
 
         // 显示当前选中的按钮
@@ -410,7 +415,7 @@
         }
 
         function toTestOne(){
-            window.location.href = "/test/daohang";
+            //window.location.href = "/test/daohang";
         }
 
     </script>

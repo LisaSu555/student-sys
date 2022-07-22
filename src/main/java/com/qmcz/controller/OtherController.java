@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 测试使用
  */
 @Controller
-@RequestMapping("/test")
-public class TestTest {
+@RequestMapping("/other")
+public class OtherController {
 
     @RequestMapping("/daohang")
     public String toNewPage1(){

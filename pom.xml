@@ -87,7 +87,7 @@
     </dependencies>
 
     <build>
-        <finalName>student-sys</finalName>
+        <finalName>sys</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
