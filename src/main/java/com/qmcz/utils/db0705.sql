@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : mylocal
+ Source Server         : mytest
  Source Server Type    : MySQL
- Source Server Version : 50732
+ Source Server Version : 50711
  Source Host           : localhost:3306
  Source Schema         : db0705
 
  Target Server Type    : MySQL
- Target Server Version : 50732
+ Target Server Version : 50711
  File Encoding         : 65001
 
- Date: 12/07/2022 19:08:07
+ Date: 23/07/2022 23:50:57
 */
 
 SET NAMES utf8mb4;
@@ -23,31 +23,79 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `sex` int(2) NULL DEFAULT NULL,
-  `authen_code` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `age` int(3) NULL DEFAULT NULL,
-  `teacher_id` int(10) NULL DEFAULT NULL,
-  `class_id` int(10) NULL DEFAULT NULL,
-  `subject_id` int(10) NULL DEFAULT NULL,
-  `phone` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `sex` int(2) DEFAULT NULL,
+  `authen_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `age` int(3) DEFAULT NULL,
+  `teacher_id` int(10) DEFAULT 1,
+  `class_id` int(10) DEFAULT 1,
+  `subject_id` int(10) DEFAULT 1,
+  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'tiger', 0, NULL, 18, 0, 0, 0, NULL);
-INSERT INTO `user` VALUES (2, 'haidai', 0, NULL, 18, 0, 0, 0, NULL);
-INSERT INTO `user` VALUES (3, NULL, 0, NULL, 0, 0, 0, 0, NULL);
-INSERT INTO `user` VALUES (4, NULL, 0, NULL, 0, 0, 0, 0, NULL);
-INSERT INTO `user` VALUES (5, NULL, 0, NULL, 0, 0, 0, 0, NULL);
-INSERT INTO `user` VALUES (6, NULL, 0, NULL, 0, 0, 0, 0, NULL);
-INSERT INTO `user` VALUES (7, 'sq', 0, NULL, 0, 0, 0, 0, NULL);
-INSERT INTO `user` VALUES (8, 'sq2', 0, 'kjkjkjkj', 0, 0, 0, 0, NULL);
-INSERT INTO `user` VALUES (9, 'sq2', 0, 'kjkjkjkj', 18, 1, 1, 1, '666666666');
-INSERT INTO `user` VALUES (10, 'jqx', 0, NULL, 18, 0, 0, 0, NULL);
-INSERT INTO `user` VALUES (11, 'meican', 0, NULL, 0, 0, 0, 0, NULL);
+INSERT INTO `user` VALUES (1, 'tiger', 1, NULL, 18, 0, 0, 0, NULL);
+INSERT INTO `user` VALUES (2, 'haidia', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (3, 'haidia2', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (4, 'haidia3', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (5, 'haidia4', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (6, 'haidia6', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (7, 'haidia7', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (8, 'haidia8', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (9, 'haidia9', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (10, 'haidia10', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (11, 'haidia11', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (12, 'haidia12', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (13, 'haidia13', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (14, 'haidia14', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (15, 'haidia15', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (16, 'haidia16', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (17, 'haidia17', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (18, 'haidia18', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (19, 'haidia19', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (20, 'haidia20', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (21, 'haidia21', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (22, 'haidia22', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (23, 'haidia23', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (24, 'haidia24', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (25, 'haidia25', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (26, 'haidia26', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (27, 'haidia27', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (28, 'haidia28', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (29, 'haidia29', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (30, 'haidia30', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (31, 'haidia31', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (32, 'haidia32', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (33, 'haidia33', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (34, 'haidia34', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (35, 'haidia35', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (36, 'haidia36', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (37, 'haidia37', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (38, 'haidia38', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (39, 'haidia39', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (40, 'haidia40', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (41, 'haidia41', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (42, 'haidia42', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (43, 'haidia43', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (44, 'haidia44', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (45, 'haidia45', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (46, 'haidia46', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (47, 'haidia47', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (48, 'haidia48', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (49, 'haidia49', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (50, 'haidia50', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (51, 'haidia51', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (52, 'haidia52', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (53, 'haidia53', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (54, 'haidia54', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (55, 'haidia55', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (56, 'haidia56', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (57, 'haidia57', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (58, 'haidia58', 1, NULL, 16, 1, 1, 1, NULL);
+INSERT INTO `user` VALUES (59, 'haidia59', 1, NULL, 16, 1, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for user_account
@@ -56,15 +104,14 @@ DROP TABLE IF EXISTS `user_account`;
 CREATE TABLE `user_account`  (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL,
-  `psw` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `psw` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_account
 -- ----------------------------
 INSERT INTO `user_account` VALUES (1, 1, '123456');
-INSERT INTO `user_account` VALUES (2, 2, '123456');
 
 -- ----------------------------
 -- Table structure for user_cost
@@ -72,10 +119,10 @@ INSERT INTO `user_account` VALUES (2, 2, '123456');
 DROP TABLE IF EXISTS `user_cost`;
 CREATE TABLE `user_cost`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `cost_money` decimal(65, 0) NULL DEFAULT NULL,
-  `desc` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `cost_money` decimal(65, 0) DEFAULT NULL,
+  `desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
