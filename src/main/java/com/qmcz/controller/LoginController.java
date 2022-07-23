@@ -1,6 +1,7 @@
 package com.qmcz.controller;
 
 import com.qmcz.base.TransformData;
+import com.qmcz.domain.User;
 import com.qmcz.domain.vi.LoginUser;
 import com.qmcz.domain.vo.UserAccount;
 import com.qmcz.mapper.NormalQueryMapper;
@@ -46,7 +47,7 @@ public class LoginController {
     @RequestMapping("/login")
     public String login(ModelMap map){
         map.addAttribute("name","hello");
-        return "page/login";
+        return "pages/login";
     }
 
     /**
@@ -97,5 +98,14 @@ public class LoginController {
             }
         }
         return tr;
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest req, HttpServletResponse resp){
+        LoginUser vip = (LoginUser)req.getSession().getAttribute("vip");
+        if(vip != null){
+            req.getSession().removeAttribute("vip");
+        }
+        return "pages/login";
     }
 }
