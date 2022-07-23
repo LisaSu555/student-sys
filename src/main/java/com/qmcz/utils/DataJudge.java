@@ -30,4 +30,8 @@ public class DataJudge {
         }
         return tr;
     }
+
+    public static boolean isStringNull(String name){
+        return true;
+    }
 }
