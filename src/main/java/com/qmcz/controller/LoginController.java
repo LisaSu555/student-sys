@@ -101,11 +101,12 @@ public class LoginController {
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest req, HttpServletResponse resp){
+    @ResponseBody
+    public void logout(HttpServletRequest req, HttpServletResponse resp) throws Exception{
         LoginUser vip = (LoginUser)req.getSession().getAttribute("vip");
         if(vip != null){
             req.getSession().removeAttribute("vip");
         }
-        return "pages/login";
+        resp.sendRedirect("/login");
     }
 }

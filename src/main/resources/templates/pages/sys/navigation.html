@@ -18,12 +18,12 @@
             <!--向左对齐-->
             <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown">
-                    <a onclick="studentLink()" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" onclick="studentLink()" class="dropdown-toggle" data-toggle="dropdown">
                         用户/学生信息
                     </a>
                 </li>
                 <li>
-                    <a onclick="teacherLink()" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" onclick="teacherLink()" class="dropdown-toggle" data-toggle="dropdown">
                         教师信息
                     </a>
                 </li>
@@ -48,7 +48,7 @@
 
     // 点击头部用户/学生链接
     function studentLink(){
-
+        window.location.href = "/user/list";
     }
 
     // 点击头部教师链接
