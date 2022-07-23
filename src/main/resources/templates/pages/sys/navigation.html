@@ -14,16 +14,17 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="#">随便的管理网站</a>
         </div>
+        <input id="pageName" th:value="${pageName}" hidden>
         <div>
             <!--向左对齐-->
             <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown">
-                    <a href="#" onclick="studentLink()" class="dropdown-toggle" data-toggle="dropdown">
+                    <a id="student" href="#" onclick="studentLink()" class="dropdown-toggle" data-toggle="dropdown">
                         用户/学生信息
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="teacherLink()" class="dropdown-toggle" data-toggle="dropdown">
+                    <a id="teacher" href="#" onclick="teacherLink()" class="dropdown-toggle" data-toggle="dropdown">
                         教师信息
                     </a>
                 </li>
@@ -43,8 +44,19 @@
 
     // 页面初始化调用方法
     $(function (){
-
+        setColorForNav();
     })
+
+    // 位当前页面的导航栏上色
+    function setColorForNav(){
+        let name = $("#pageName").val();
+        if(name === "student"){
+            // style="background-color: rgb(91,183,92)"
+            $("#student").css('background','pink');
+        }else if(name === "teacher"){
+            $("#teacher").css('background','pink');
+        }
+    }
 
     // 点击头部用户/学生链接
     function studentLink(){
@@ -53,7 +65,7 @@
 
     // 点击头部教师链接
     function teacherLink(){
-
+        window.location.href = "/teacher/list";
     }
 
     // 退出登录

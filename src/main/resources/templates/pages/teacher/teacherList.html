@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8"/>
-        <title>userList</title>
+        <title>teacherList</title>
         <!--利用thymeleaf表达式获取css路径,bootstrap给button提供样式-->
 <!--        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />-->
 <!--        <script type="text/javascript" th:src="@{/js/jquery3.js}"></script>-->
@@ -20,20 +20,11 @@
 
         </div>
 
-<!--        <div><br/></div>-->
-
-        <div>
-            <div>
-                <button id="xlsx_down_button" class="btn btn-success">接口文档下载</button>
-<!--                <button id="test" onclick="toTestOne()" class="btn btn-success">test</button>-->
-            </div>
-        </div>
-
         <div><br/></div>
 
         <!--    用户名称输入框    -->
         <div>
-            <input style="width: 50%;display: revert" type="text" id="userNameSearchInput" th:value="${query}" class="form-control" placeholder="目前只能输入用户名称进行查询，按回车键搜索" />
+            <input style="width: 50%;display: revert" type="text" id="userNameSearchInput" class="form-control" placeholder="目前只能输入用户名称进行查询，按回车键搜索" />
             <button class="btn btn-info" id="userNameSearchButton" type="button">
                 查询
             </button>
@@ -53,21 +44,11 @@
                     <th th:width="200">操作</th>
                 </tr>
                 <!-- 遍历list数据 -->
-                <tr th:each="user:${list}">
-                    <th th:text="${user.id}"></th>
-                    <th th:text="${user.name}"></th>
-                    <th th:text="${user.age}"></th>
-                    <th th:if="${user.sex}=='1'">男</th>
-                    <th th:if="${user.sex}=='0'">女</th>
-                    <th>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
-                                th:onclick="'editUser('+${user.id}+')'">修改</button>
-                        <button type="button" class="btn btn-danger btn-sm"
-                                th:onclick="'deleteUser('+${user.id}+')'">删除</button>
-                    </th>
+                <tr>
+
                 </tr>
             </table>
-            <div th:align="center" th:if="${#lists.isEmpty(list)}"><font style="color: #0a53be">没有查询到数据</font></div>
+<!--            <div th:align="center" th:if="${#lists.isEmpty(list)}"><font style="color: #0a53be">没有查询到数据</font></div>-->
             <div>
                 <ul id="pageButtonArea" class="pagination">
 
@@ -149,13 +130,12 @@
         // 全局变量控制分页按钮展示
         let globalPageButtonNumber = 0;
         let globalPageLoopCount = 5;
-        let globalCurrentPageNumber = 1;
         // 初始化页面时运行
         $(function (){
             // 加载分页按钮
-            pageButtonView()
+            //pageButtonView()
             //setButtonColor()
-            $('#html_core').load('/other/daohang?name=student');
+            $('#html_core').load('/other/daohang?name=teacher');
         })
 
         // 显示当前选中的按钮
@@ -172,7 +152,7 @@
         // 分页按钮按照实际数据量显示
         function pageButtonView(){
             // 获取分页数量（后台计算后传来）
-            let size = [[${userListSize}]];
+            let size = 10;
             // 设置分页按钮html处的html显示，声明一个字符变量
             let pageButtonAreaHtml = '<li><a href="/user/list?pageNumber=1">首页</a></li>';
 
@@ -195,7 +175,7 @@
 
             // 结尾添加
             pageButtonAreaHtml += '<li><a href="/user/list?pageNumber='+size+'">尾页</a></li>';
-            pageButtonAreaHtml += '<li><a>第'+[[${currentPageNumber}]]+'页</a></li>';
+            pageButtonAreaHtml += '<li><a>第'+1+'页</a></li>';
             // 将html代码赋值给代码区域
             $("#pageButtonArea").html(pageButtonAreaHtml);
         }
@@ -203,7 +183,7 @@
         // 切换分页按钮上
         function changePageButtonUp(){
             // 获取数据页数
-            let pageCount = [[${userListSize}]];
+            let pageCount = 1;
             if(globalPageButtonNumber <= 0){
                 return false;
             }
@@ -215,7 +195,7 @@
         // 切换分页按钮下
         function changePageButtonDown(){
             // 获取数据页数
-            let pageCount = [[${userListSize}]];
+            let pageCount = 1;
             // 分页按钮最大值不能超过数据数量的分页数量，globalPageButtonNumber表示每组按钮启示标号，每一组五个所以加五表示一组中最大值
             if(globalPageButtonNumber+5 >= pageCount){
                 return false;
@@ -241,29 +221,6 @@
             return pageButtonAreaHtml;
         }
 
-        // 赋值全局变量
-        function setColorForPageButton(){
-            // globalCurrentPageNumber = [[${currentPageNumber}]];
-            // let buttons = $('a[name="pageNumber"]');
-            // // buttons.forEach((item, index, arr) => {
-            // //     console.log(item.innerHTML);
-            // // });
-            // let p = globalCurrentPageNumber;
-            // $.each(buttons, function (i, item) {
-            //     let current = item.innerHTML;
-            //     p = p+"";
-            //     current = current+"";
-            //     if(p === current){
-            //         item.css('background','pink');
-            //     }
-            // });
-        }
-
-        // 点击接口文档下载按键后触发方法
-        $("#xlsx_down_button").click(function (){
-            window.location.href = "/file/download";
-        })
-
         // 输入用户名点击搜索
         $("#userNameSearchButton").click(function (){
             let userNameToSearch = $("#userNameSearchInput").val();
@@ -282,23 +239,20 @@
 
         // 搜索用户
         function searchUserByName(userName){
-            window.location.href = "/user/list?name="+userName;
+            window.location.href = "";
         }
 
         function saveUser() {
             // 使用ajax异步请求
             $.ajax({
                 //为wed.xml的AjaxServlet的路径
-                url : "/user/add_user",
+                url : "/teacher/save_teacher",
                 type : "POST",		//POST方法
                 // 入参对象
                 data : {
                     id : $("#hiddenIdInput").val(),
                     //获取用户名的值传到AjaxServlet
                     name : $("#account").val(),
-                    //获取密码的值传到AjaxServlet
-                    password : $("#psw").val(),
-                    sex : $("input[name='sex'][checked]").val(),
                     age : $("#age").val()
                 },
                 // 入参对象格式：json

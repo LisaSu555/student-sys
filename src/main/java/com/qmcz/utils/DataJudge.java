@@ -31,7 +31,12 @@ public class DataJudge {
         return tr;
     }
 
-    public static boolean isStringNull(String name){
-        return true;
+    /**
+     * 字段string 非空判断,断言字符是有值的。
+     * @param name 入参
+     * @return 真假
+     */
+    public static boolean stringNotNull(String name){
+        return name != null && !"".equals(name);
     }
 }

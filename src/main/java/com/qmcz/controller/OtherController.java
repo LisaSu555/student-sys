@@ -1,7 +1,9 @@
 package com.qmcz.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author pcf
@@ -13,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class OtherController {
 
     @RequestMapping("/daohang")
-    public String toNewPage1(){
+    public String toNewPage1(@RequestParam("name") String name, ModelMap map){
+        map.addAttribute("pageName", name);
         return "pages/sys/navigation";
     }
 }

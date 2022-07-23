@@ -1,4 +1,4 @@
-package com.qmcz.domain;
+package com.qmcz.domain.vi;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,9 +12,7 @@ import java.util.Date;
  * @date 2022/07/23
  */
 @Data
-@TableName("teacher")
-public class Teacher {
-    @TableId("id")
+public class TeacherVi {
     private Integer id;
     private String name;
     private Integer age;
