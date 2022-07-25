@@ -31,7 +31,7 @@ public class TeacherController {
     @ResponseBody
     public TransformData<Teacher> getTeacherListPage(ModelMap modelMap, TeacherQuery tq){
         TransformData<Teacher> teacherTransformData = teacherService.getTeacherPage(tq);
-        return null;
+        return teacherTransformData;
     }
 
     @RequestMapping("/save_teacher")
