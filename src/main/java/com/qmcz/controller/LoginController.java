@@ -65,6 +65,7 @@ public class LoginController {
         List<UserAccount> userList = normalQueryMapper.selectData();
         //判断输入的账号密码是否正确
         if(!ListUtils.isEmpty(userList)){
+            boolean status = false;
             for (UserAccount userAccount:userList) {
                 //得到输入的账号和密码，和数据库中的所有数据进行对比
                 String inputName = loginUser.getName();
@@ -83,18 +84,18 @@ public class LoginController {
                         //设置消息体
                         tr.setMsg("登录成功");
                         tr.setCode("0000");
+                        status = true;
                     }else {//账号正确密码错误
                         //登录失败则清空session，则需要重新登录
                         session.removeAttribute("vip");
                         tr.setCode("0001");
                         tr.setMsg("密码错误");
                     }
-                }else {//其他情况
-                    session.removeAttribute("vip");
-                    tr.setCode("0001");
-                    tr.setMsg("可能是你是账号写错了！");
                 }
-                return tr;
+            }
+            if(!status){
+                tr.setCode("0002");
+                tr.setMsg("账号或者密码错误");
             }
         }
         return tr;

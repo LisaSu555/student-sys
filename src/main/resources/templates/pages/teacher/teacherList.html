@@ -137,6 +137,7 @@
 
         // 加载教师数据
         function getTeacherData(){
+            let html = "";
             // 使用ajax异步请求
             $.ajax({
                 //为wed.xml的AjaxServlet的路径
@@ -151,10 +152,16 @@
                 dataType : "application/json",
                 // 完成请求后
                 complete: function(r) {
+                    // 转换成json对象
                     let rJson = $.parseJSON(r.responseText);
+                    // 得到数据list
                     let teacherList = rJson.rows;
+                    // 遍历list
                     if(teacherList.length > 0){
-
+                        $.each(teacherList, function (n,value){
+                            console.log(n);
+                            console.log(value);
+                        });
                     }
                 }
             })
