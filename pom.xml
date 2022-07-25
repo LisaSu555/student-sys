@@ -7,7 +7,7 @@
     <groupId>com.qmcz</groupId>
     <artifactId>student-sys</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -95,8 +95,8 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.2</version>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
             </plugin>
         </plugins>
     </build>
