@@ -2,6 +2,7 @@ package com.qmcz.webConfig;
 
 import com.qmcz.domain.User;
 import com.qmcz.domain.vi.LoginUser;
+import com.qmcz.utils.TimeUtil;
 import com.qmcz.utils.UserGenerUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,7 +46,8 @@ public class HandlerInterceptorMy implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest req, HttpServletResponse resp, Object handler, Exception ex){
-        System.out.println("执行了afterCompletion");
+        String nowTimeToSS = TimeUtil.getNowTimeToSS();
+        System.out.println("执行了afterCompletion:"+nowTimeToSS);
         //在整个请求结束之后,渲染了对应的视图以后执行,主要用于资源清理工作
     }
 }
