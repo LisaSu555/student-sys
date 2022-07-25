@@ -1,35 +1,48 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : mytest
+ Source Server         : myServer
  Source Server Type    : MySQL
- Source Server Version : 50711
- Source Host           : localhost:3306
+ Source Server Version : 80029
+ Source Host           : 116.62.113.33:3306
  Source Schema         : db0705
 
  Target Server Type    : MySQL
- Target Server Version : 50711
+ Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 23/07/2022 23:50:57
+ Date: 24/07/2022 23:26:56
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
+-- Table structure for teacher
+-- ----------------------------
+DROP TABLE IF EXISTS `teacher`;
+CREATE TABLE `teacher`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `age` int(0) DEFAULT NULL,
+  `work_time` date DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `sex` int(2) DEFAULT NULL,
+  `sex` int(0) DEFAULT NULL,
   `authen_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `age` int(3) DEFAULT NULL,
-  `teacher_id` int(10) DEFAULT 1,
-  `class_id` int(10) DEFAULT 1,
-  `subject_id` int(10) DEFAULT 1,
+  `age` int(0) DEFAULT NULL,
+  `teacher_id` int(0) DEFAULT 1,
+  `class_id` int(0) DEFAULT 1,
+  `subject_id` int(0) DEFAULT 1,
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -102,8 +115,8 @@ INSERT INTO `user` VALUES (59, 'haidia59', 1, NULL, 16, 1, 1, 1, NULL);
 -- ----------------------------
 DROP TABLE IF EXISTS `user_account`;
 CREATE TABLE `user_account`  (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) NOT NULL,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `user_id` int(0) NOT NULL,
   `psw` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -118,7 +131,7 @@ INSERT INTO `user_account` VALUES (1, 1, '123456');
 -- ----------------------------
 DROP TABLE IF EXISTS `user_cost`;
 CREATE TABLE `user_cost`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `cost_money` decimal(65, 0) DEFAULT NULL,
   `desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
