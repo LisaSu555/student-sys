@@ -1,9 +1,9 @@
 package com.qmcz.webConfig;
 
-import com.qmcz.domain.User;
 import com.qmcz.domain.vi.LoginUser;
 import com.qmcz.utils.TimeUtil;
 import com.qmcz.utils.UserGenerUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class HandlerInterceptorMy implements HandlerInterceptor {
     @Override
-    public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler){
+    public boolean preHandle(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp, @NotNull Object handler){
         System.out.println("执行了preHandle方法");
         try {
             //统一拦截,查询当前session是否存在user,这里user每次登录后会存入session
@@ -40,8 +40,9 @@ public class HandlerInterceptorMy implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest req, HttpServletResponse resp, Object handler, ModelAndView modelAndView){
+        String nowTimeToSS = TimeUtil.getNowTimeToSS();
         //请求处理以后进行调用,Controller方法之后
-        System.out.println("执行了Posthandler方法");
+        System.out.println("执行了Posthandler方法:"+nowTimeToSS);
     }
 
     @Override

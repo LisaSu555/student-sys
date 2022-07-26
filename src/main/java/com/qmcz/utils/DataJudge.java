@@ -2,6 +2,8 @@ package com.qmcz.utils;
 
 import com.qmcz.base.TransformData;
 
+import java.util.List;
+
 /**
  * 判断参数是否为空
  * 参数可以是对象什么的
@@ -38,5 +40,9 @@ public class DataJudge {
      */
     public static boolean stringNotNull(String name){
         return name != null && !"".equals(name);
+    }
+
+    public static <T> boolean listIsNotNull(List<T> list){
+        return list == null || list.size() == 0;
     }
 }

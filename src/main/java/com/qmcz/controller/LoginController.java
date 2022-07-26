@@ -1,7 +1,6 @@
 package com.qmcz.controller;
 
 import com.qmcz.base.TransformData;
-import com.qmcz.domain.User;
 import com.qmcz.domain.vi.LoginUser;
 import com.qmcz.domain.vo.UserAccount;
 import com.qmcz.mapper.NormalQueryMapper;

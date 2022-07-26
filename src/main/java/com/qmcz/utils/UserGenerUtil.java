@@ -22,6 +22,8 @@ public class UserGenerUtil {
     public static HttpServletResponse response;
     public static HttpServletRequest request;
 
+    public static String currentUsername;
+
     public static LoginUser getCurrentUser(){
         HttpSession session = request.getSession();
         LoginUser user = (LoginUser) session.getAttribute("vip");
