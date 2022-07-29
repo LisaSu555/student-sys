@@ -350,17 +350,18 @@
                     if(rCode === "0000"){
                         let user = rJson.rows[0]
                         console.log(user)
-                        $("#account").val(user.name);
-                        $("#psw").val(user.password);
-                        if(user.sex == 0){
-                            $('input[type=radio]').get(0).checked = false;
-                            $('input[type=radio]').get(1).checked = true;
-                        }else{
-                            $('input[type=radio]').get(0).checked = true;
-                            $('input[type=radio]').get(1).checked = false;
+                        if(user !== undefined){
+                            $("#account").val(user.name);
+                            $("#psw").val(user.password);
+                            if(user.sex == 0){
+                                $('input[type=radio]').get(0).checked = false;
+                                $('input[type=radio]').get(1).checked = true;
+                            }else{
+                                $('input[type=radio]').get(0).checked = true;
+                                $('input[type=radio]').get(1).checked = false;
+                            }
+                            $("#age").val(user.age);
                         }
-
-                        $("#age").val(user.age);
                     }else {
                         // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
                         alert("未知错误")

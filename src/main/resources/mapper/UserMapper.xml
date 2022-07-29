@@ -34,7 +34,7 @@
             a.psw as password
         from
             user u
-        inner join
+        left join
             user_account a
         on
             u.id = a.user_id
