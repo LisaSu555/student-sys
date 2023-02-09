@@ -52,4 +52,11 @@ public interface UserService {
      * @return 传输对象
      */
     TransformData<UserVoEdit> getUserListAjax(User user);
+
+    /**
+     * 查询一个用户
+     * @param id 用户id
+     * @return 用户对象
+     */
+    User selectUserById(String id);
 }

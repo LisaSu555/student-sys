@@ -213,4 +213,9 @@ public class UserServiceImpl implements UserService {
         tr.setMsg("查询成功");
         return tr;
     }
+
+    @Override
+    public User selectUserById(String id) {
+        return userMapper.selectById(id);
+    }
 }
