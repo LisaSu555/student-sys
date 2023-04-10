@@ -1,5 +1,6 @@
 package com.qmcz.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -20,4 +21,10 @@ public class Teacher {
     private Integer age;
     private Date workTime;
     private String phone;
+    @TableField(exist = false)
+    private Integer pageSize = 10;
+    @TableField(exist = false)
+    private Integer pageNumber;
+    @TableField(exist = false)
+    private Integer pageStart;
 }

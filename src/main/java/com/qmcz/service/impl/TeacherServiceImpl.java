@@ -3,6 +3,7 @@ package com.qmcz.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.Teacher;
+import com.qmcz.domain.User;
 import com.qmcz.domain.query.TeacherQuery;
 import com.qmcz.domain.vi.TeacherVi;
 import com.qmcz.mapper.TeacherMapper;
@@ -66,5 +67,30 @@ public class TeacherServiceImpl implements TeacherService {
             tr = DataJudge.judgeOperateResult(update, "编辑", "1002", "失败");
         }
         return tr;
+    }
+
+    @Override
+    public TransformData<Teacher> getTeacherList(Teacher teacher) {
+        TransformData<Teacher> t = new TransformData<>();
+        if(teacher.getPageNumber() == null){
+            teacher.setPageNumber(1);
+        }
+        teacher.setPageStart((teacher.getPageNumber()-1)*teacher.getPageSize());
+        // 查询出来所有数据
+        List<Teacher> teacherList = teacherMapper.selectTeacherList(teacher);
+        if(teacherList != null && teacherList.size()>0){
+            t.setRows(teacherList);
+            t.setCode("0000");
+            t.setMsg("查询到数据了");
+        }else{
+            t.setCode("0001");
+            t.setMsg("没有数据，或者数据集合为空");
+        }
+        return t;
+    }
+
+    @Override
+    public TransformData<Teacher> getTeacherListApi(Object o) {
+        return null;
     }
 }

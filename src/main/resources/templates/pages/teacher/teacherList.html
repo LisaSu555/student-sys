@@ -40,15 +40,22 @@
                     <th th:width="100">教师id</th>
                     <th th:width="100">用户名/教师名</th>
                     <th th:width="100">年龄</th>
-                    <th th:width="100">性别</th>
                     <th th:width="200">操作</th>
                 </tr>
                 <!-- 遍历list数据 -->
-                <tr>
-
+                <tr th:each="teacher:${list}">
+                    <th th:text="${teacher.id}"></th>
+                    <th th:text="${teacher.name}"></th>
+                    <th th:text="${teacher.age}"></th>
+                    <th>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
+                                th:onclick="'editUser('+${teacher.id}+')'">修改</button>
+                        <button type="button" class="btn btn-danger btn-sm"
+                                th:onclick="'deleteUser('+${teacher.id}+')'">删除</button>
+                    </th>
                 </tr>
             </table>
-<!--            <div th:align="center" th:if="${#lists.isEmpty(list)}"><font style="color: #0a53be">没有查询到数据</font></div>-->
+            <div th:align="center" th:if="${#lists.isEmpty(list)}"><font style="color: #0a53be">没有查询到数据</font></div>
             <div>
                 <ul id="pageButtonArea" class="pagination">
 

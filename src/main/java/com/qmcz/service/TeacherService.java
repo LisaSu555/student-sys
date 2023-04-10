@@ -19,4 +19,8 @@ public interface TeacherService {
      * @return 传输对象
      */
     TransformData<Teacher> saveTeacher(TeacherVi teacherVi);
+
+    TransformData<Teacher> getTeacherList(Teacher teacher);
+
+    TransformData<Teacher> getTeacherListApi(Object o);
 }
