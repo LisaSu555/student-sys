@@ -1,17 +1,16 @@
 package com.qmcz.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
 import com.qmcz.domain.vi.UserVi;
 import com.qmcz.domain.vo.UserVoEdit;
 import com.qmcz.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -94,6 +93,24 @@ public class UserController {
     @PostMapping("/delete_user")
     public TransformData<User> deleteUser(User user){
         return userService.deleteUser(user);
+    }
+
+    /**
+     * 模糊查询user
+     * @return 集合
+     */
+    @GetMapping("{name}/get_user_mohu/{age}")
+    @ResponseBody
+    public List<User> getUserList(@PathVariable("name") String name , @PathVariable("age") Integer age){
+        User user = new User();
+        if(StringUtils.isNotBlank(name)){
+            user.setName(name);
+        }
+        if(age != null){
+            user.setAge(age);
+        }
+        TransformData<User> userListData = userService.getUserList(user);
+        return userListData.getRows();
     }
 
 }

@@ -24,6 +24,9 @@
         <if test="user.name != null and user.name != '' ">
             and s.name like concat('%', #{user.name}, '%')
         </if>
+        <if test="user.age != 0 and user.age != null">
+            and s.age = #{user.age}
+        </if>
         limit #{user.pageStart} , #{user.pageSize}
     </select>
     <select id="selectUserForEdit" resultType="com.qmcz.domain.vo.UserVoEdit">
