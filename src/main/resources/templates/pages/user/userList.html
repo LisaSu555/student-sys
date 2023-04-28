@@ -5,7 +5,7 @@
         <title>userList</title>
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <script type="text/javascript" th:src="@{/js/jquery3.6.js}"></script>
-        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     </head>
 
     <body class="container">
@@ -112,28 +112,6 @@
                 </div>
             </div>
         </div>
-
-
-        <h2>创建模态框（Modal）</h2>
-        <!-- 按钮触发模态框 -->
-        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addModal">开始演示模态框</button>
-        <!-- 模态框（Modal） -->
-        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="addModalLabel">模态框（Modal）标题</h4>
-                    </div>
-                    <div class="modal-body">在这里添加一些文本</div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary">提交更改</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-
 
         <!-- 删除提示框 -->
         <div class="modal fade" id="delcfmModel">
@@ -363,19 +341,23 @@
                     // 得到转化后的json的code属性
                     let rCode = rJson.code;
                     if(rCode === "0000"){
-                        let user = rJson.rows[0]
-                        console.log(user)
-                        if(user !== undefined){
-                            $("#account").val(user.name);
-                            $("#psw").val(user.password);
-                            if(user.sex == 0){
-                                $('input[type=radio]').get(0).checked = false;
-                                $('input[type=radio]').get(1).checked = true;
-                            }else{
-                                $('input[type=radio]').get(0).checked = true;
-                                $('input[type=radio]').get(1).checked = false;
+                        if(rJson.rows != null && rJson.rows.length > 0){
+                            let user = rJson.rows[0]
+                            console.log(user)
+                            if(user !== undefined){
+                                $("#account").val(user.username);
+                                $("#psw").val(user.password);
+                                if(user.sex == 0){
+                                    $('input[type=radio]').get(0).checked = false;
+                                    $('input[type=radio]').get(1).checked = true;
+                                }else{
+                                    $('input[type=radio]').get(0).checked = true;
+                                    $('input[type=radio]').get(1).checked = false;
+                                }
+                                $("#age").val(user.age);
                             }
-                            $("#age").val(user.age);
+                        }else {
+                            return false;
                         }
                     }else {
                         // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。

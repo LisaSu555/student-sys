@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class UserVoEdit {
-    private String name;
+    private String username;
     private String password;
     private Integer sex;
     private Integer age;
