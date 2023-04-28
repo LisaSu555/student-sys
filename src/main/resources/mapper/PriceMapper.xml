@@ -17,7 +17,9 @@
     </sql>
     <select id="getPricePage" resultType="com.qmcz.domain.vo.PriceVo">
         select
-            c.name as goodsName ,p.price
+            c.id,
+            c.name as goodsName ,
+            p.price
         from commodity c
             left join price p on c.id = p.commodity_id
         where

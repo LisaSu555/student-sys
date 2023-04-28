@@ -5,5 +5,5 @@ import lombok.Data;
 
 @Data
 public class PriceVo extends Price {
-    private String goodName;
+    private String goodsName;
 }

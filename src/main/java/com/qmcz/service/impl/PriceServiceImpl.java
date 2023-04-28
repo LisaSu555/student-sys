@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.Cost;
 import com.qmcz.domain.Price;
+import com.qmcz.domain.User;
 import com.qmcz.domain.vi.PriceVi;
 import com.qmcz.domain.vo.PriceVo;
 import com.qmcz.service.PriceService;
@@ -38,6 +39,26 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price>
             tr.setMsg("没有查询到数据，可能报错，可能为空");
             tr.setCode("0002");
         }
+        return tr;
+    }
+
+    @Override
+    public TransformData<PriceVo> getUserListApi(PriceVi vi) {
+        TransformData<PriceVo> tr = new TransformData<>();
+        if(vi == null){
+            vi = new PriceVi();
+        }
+        // 查询出来的数据
+        List<PriceVo> priceList = priceMapper.getPricePage(vi);
+        // 填充响应对象即可
+        tr.setRows(priceList);
+        tr.setCode("0000");
+        if(priceList.isEmpty()){
+            tr.setMsg("没有查询到你想要的数据");
+        }else {
+            tr.setMsg("查询成功");
+        }
+        // 返回响应对象
         return tr;
     }
 }

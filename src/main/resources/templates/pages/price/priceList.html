@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>userList</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+
+    <body class="container">
+        <div id="html_core">
+
+        </div>
+
+        <div><br/></div>
+
+        <!--    用户名称输入框    -->
+        <div>
+            <input style="width: 50%;display: revert" type="text" id="userNameSearchInput" th:value="${query}" class="form-control" placeholder="目前只能输入用户名称进行查询，按回车键搜索" />
+            <button class="btn btn-info" id="userNameSearchButton" type="button">
+                查询
+            </button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" onclick="clearWindow()">
+                新增
+            </button>
+        </div>
+
+        <div><br/></div>
+        <div>
+            <table class="table table-hover">
+                <tr>
+                    <th th:width="100">商品id</th>
+                    <th th:width="100">商品名称</th>
+                    <th th:width="100">价格</th>
+                </tr>
+                <!-- 遍历list数据 -->
+                <tr th:each="priceVi:${list}">
+                    <th th:text="${priceVi.id}"></th>
+                    <th th:text="${priceVi.goodsName}"></th>
+                    <th th:text="${priceVi.price}"></th>
+                </tr>
+            </table>
+            <div th:align="center" th:if="${#lists.isEmpty(list)}"><font style="color: #0a53be">没有查询到数据</font></div>
+            <div>
+                <ul id="pageButtonArea" class="pagination">
+
+                </ul>
+            </div>
+        </div>
+
+        <!-- 模态框（Modal）用户新增和编辑 -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            新增/编辑
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div th:align="center">
+                            <!--隐藏一个id输入框用于编辑-->
+                            <input type="text" hidden id="hiddenIdInput" value="" name="id">
+                            <span class="glyphicon glyphicon-user"></span>账号/用户名
+                            <input type="text" style="width: 50%" id="account" onfocus="" class="form-control" name="name" required>
+                            <span class="glyphicon glyphicon-star"></span>密码
+                            <input type="text" style="width: 50%" id="psw" onfocus="" class="form-control" name="password" required>
+
+                            <span class="glyphicon glyphicon-unchecked"></span>性别<br/>
+                            <label class="radio-inline">
+                                <input type="radio" name="sex" value="1"> 男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sex" value="0"> 女
+                            </label>
+                            <br/>
+                            <span class="glyphicon glyphicon-send"></span>年龄
+                            <input type="text" style="width: 50%" id="age" onfocus="" class="form-control" name="age" value="" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="saveUser()">
+                            保存
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 删除提示框 -->
+        <div class="modal fade" id="delcfmModel">
+            <div class="modal-dialog">
+                <div class="modal-content message_align">
+                    <div class="modal-header">
+                        <h4 class="modal-title">确认信息</h4>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">×</span></button>            </div>
+                    <div class="modal-body">
+                        <p id="delcfmMsg">您确认要删除吗？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <a class="btn btn-success" data-dismiss="modal" id="btnOkDelete" >确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript" th:src="@{/js/jquery3.6.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    </body>
+
+    <script>
+
+        // 全局变量控制分页按钮展示
+        let globalPageButtonNumber = 0;
+        let globalPageLoopCount = 5;
+        let globalCurrentPageNumber = 1;
+        // 初始化页面时运行
+        $(function (){
+            // 加载分页按钮
+            pageButtonView()
+            //setButtonColor()
+            $('#html_core').load('/other/daohang?name=student');
+        })
+
+        // 显示当前选中的按钮
+        function setButtonColor(){
+            $('a').click(function(){
+                //先设置点击的按钮颜色变为粉色
+                $(this).css('background','pink');
+                //再设置除了当前元素的其他兄弟元素的颜色为“空”
+                //siblings是选中当前元素的所有兄弟元素（除去当前元素）
+                $(this).siblings('button').css('background','');
+            });
+        }
+
+        // 分页按钮按照实际数据量显示
+        function pageButtonView(){
+            // 获取分页数量（后台计算后传来）
+            let size = [[${userListSize}]];
+            // 设置分页按钮html处的html显示，声明一个字符变量
+            let pageButtonAreaHtml = '<li><a href="/user/list?pageNumber=1">首页</a></li>';
+
+            // 分页按钮最多显示五个，实际数据导致按钮需要展示超过五个的话，使用箭头图标切换
+            if(size <= 5){
+                // 循环添加
+                for (let index = 0; index < size; index++){
+                    // 先计算好number再填给html
+                    let number = index + 1;
+                    pageButtonAreaHtml += '<li><a name="pageNumber" href="/user/list?pageNumber='+number+'">'+number+'</a></li>';
+                }
+            }else{
+                // 超过五页就显示切换按钮的箭头图标
+                pageButtonAreaHtml += '<li><a onclick="changePageButtonUp()">&laquo;</a></li>';
+                // 循环添加
+                pageButtonAreaHtml += composeHtml();
+                // 超过五页就显示切换按钮的箭头图标
+                pageButtonAreaHtml += '<li><a onclick="changePageButtonDown()">&raquo;</a></li>';
+            }
+
+            // 结尾添加
+            pageButtonAreaHtml += '<li><a href="/user/list?pageNumber='+size+'">尾页</a></li>';
+            pageButtonAreaHtml += '<li><a>第'+[[${currentPageNumber}]]+'页</a></li>';
+            // 将html代码赋值给代码区域
+            $("#pageButtonArea").html(pageButtonAreaHtml);
+        }
+
+        // 切换分页按钮上
+        function changePageButtonUp(){
+            // 获取数据页数
+            let pageCount = [[${userListSize}]];
+            if(globalPageButtonNumber <= 0){
+                return false;
+            }
+            globalPageButtonNumber -= 5;
+            globalPageLoopCount = 5;
+            pageButtonView();
+        }
+
+        // 切换分页按钮下
+        function changePageButtonDown(){
+            // 获取数据页数
+            let pageCount = [[${userListSize}]];
+            // 分页按钮最大值不能超过数据数量的分页数量，globalPageButtonNumber表示每组按钮启示标号，每一组五个所以加五表示一组中最大值
+            if(globalPageButtonNumber+5 >= pageCount){
+                return false;
+            }
+            globalPageButtonNumber += 5;
+            pageCount -= 5;
+            if(pageCount < 5){
+                globalPageLoopCount = pageCount;
+            }
+            pageButtonView();
+        }
+
+        // 单独出来一个组成html的方法
+        function composeHtml(){
+            let pageButtonAreaHtml = '';
+            // 循环添加
+            for (let i = globalPageButtonNumber; i < globalPageButtonNumber+globalPageLoopCount; i++){
+                // 先计算好number再填给html
+                let number = i + 1;
+                pageButtonAreaHtml += '<li onclick="setColorForPageButton()"><a name="pageNumber" href="/user/list?pageNumber='+number+'">'+number+'</a></li>';
+            }
+            // pageButtonAreaHtml += '<li id="man"><a style="background-color: #6cc2a4">888</a></li>';
+            return pageButtonAreaHtml;
+        }
+
+        // 赋值全局变量
+        function setColorForPageButton(){
+            // globalCurrentPageNumber = [[${currentPageNumber}]];
+            // let buttons = $('a[name="pageNumber"]');
+            // // buttons.forEach((item, index, arr) => {
+            // //     console.log(item.innerHTML);
+            // // });
+            // let p = globalCurrentPageNumber;
+            // $.each(buttons, function (i, item) {
+            //     let current = item.innerHTML;
+            //     p = p+"";
+            //     current = current+"";
+            //     if(p === current){
+            //         item.css('background','pink');
+            //     }
+            // });
+        }
+
+        // 点击接口文档下载按键后触发方法
+        $("#xlsx_down_button").click(function (){
+            window.location.href = "/file/download";
+        })
+
+        // 输入用户名点击搜索
+        $("#userNameSearchButton").click(function (){
+            let userNameToSearch = $("#userNameSearchInput").val();
+            searchUserByName(userNameToSearch)
+        })
+
+        //  为输入框添加绑定事件，按下回车搜索用户
+        $("#userNameSearchInput").bind('keypress', function (event) {
+            //  获取用户输入框中的值
+            let userNameToSearch = $("#userNameSearchInput").val();
+            //  当键码的值为13时也就意味着是回车，执行控制层方法
+            if (event.keyCode == '13') {
+                searchUserByName(userNameToSearch)
+            }
+        })
+
+        // 搜索用户
+        function searchUserByName(userName){
+            window.location.href = "/user/list?username="+userName;
+        }
+
+        function saveUser() {
+            // 使用ajax异步请求
+            $.ajax({
+                //为wed.xml的AjaxServlet的路径
+                url : "/user/add_user",
+                type : "POST",		//POST方法
+                // 入参对象
+                data : {
+                    id : $("#hiddenIdInput").val(),
+                    //获取用户名的值传到AjaxServlet
+                    name : $("#account").val(),
+                    //获取密码的值传到AjaxServlet
+                    password : $("#psw").val(),
+                    sex : $("input[name='sex'][checked]").val(),
+                    age : $("#age").val()
+                },
+                // 入参对象格式：json
+                dataType : "application/json",
+                // 完成请求后
+                complete: function(r) {
+                    // 得到响应参数文本值的json对象。即将string转换成json
+                    let rJson = $.parseJSON(r.responseText);
+                    // 得到转化后的json的code属性
+                    let rCode = rJson.code;
+                    if(rCode === "0000"){
+                        // 返回正常就跳转到用户列表中
+                        alert("ok");
+                        window.location.href = "/user/list";
+                    }else {
+                        // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
+                        if(rCode === '0002'){
+                            alert("该用户已存在")
+                        }else {
+                            alert("未知错误")
+                        }
+                    }
+                }
+            })
+        }
+
+        // 方法名称不高亮因为调用时的特殊性
+        // 点击编辑后查询出这个id的用户数据
+        function editUser(id){
+            $("#hiddenIdInput").val(id);
+            // 使用ajax异步请求
+            $.ajax({
+                //为wed.xml的AjaxServlet的路径
+                url : "/user/list_ajax",
+                type : "POST",		//POST方法
+                // 入参对象
+                data : {
+                    //获取用户名的值传到AjaxServlet
+                    id : id
+                },
+                // 入参对象格式：json
+                dataType : "application/json",
+                // 完成请求后
+                complete: function(r) {
+                    // 得到响应参数文本值的json对象。即将string转换成json
+                    let rJson = $.parseJSON(r.responseText);
+                    // 得到转化后的json的code属性
+                    let rCode = rJson.code;
+                    if(rCode === "0000"){
+                        if(rJson.rows != null && rJson.rows.length > 0){
+                            let user = rJson.rows[0]
+                            console.log(user)
+                            if(user !== undefined){
+                                $("#account").val(user.username);
+                                $("#psw").val(user.password);
+                                if(user.sex == 0){
+                                    $('input[type=radio]').get(0).checked = false;
+                                    $('input[type=radio]').get(1).checked = true;
+                                }else{
+                                    $('input[type=radio]').get(0).checked = true;
+                                    $('input[type=radio]').get(1).checked = false;
+                                }
+                                $("#age").val(user.age);
+                            }
+                        }else {
+                            return false;
+                        }
+                    }else {
+                        // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
+                        alert("未知错误")
+                    }
+                }
+            })
+        }
+
+        // 清空浮框数据
+        function clearWindow(){
+            $("#account").val("");
+            $("#psw").val("");
+            $("#sex").val();
+            $("#age").val("");
+        }
+
+        // 删除一条数据
+        function deleteUser(id){
+            //弹出提示框
+            $('#delcfmModel').modal({ backdrop: 'static', keyboard: false }).one('click', '#btnOkDelete', function() {
+                //这里放入点击确认后的代码
+                // 使用ajax异步请求
+                $.ajax({
+                    //为wed.xml的AjaxServlet的路径
+                    url : "/user/delete_user",
+                    type : "POST",		//POST方法
+                    // 入参对象
+                    data : {
+                        //获取用户名的值传到AjaxServlet
+                        id : id
+                    },
+                    // 入参对象格式：json
+                    dataType : "application/json",
+                    // 完成请求后
+                    complete: function(r) {
+                        // 得到响应参数文本值的json对象。即将string转换成json
+                        let rJson = $.parseJSON(r.responseText);
+                        // 得到转化后的json的code属性
+                        let rCode = rJson.code;
+                        if(rCode === "0000"){
+                            alert("删除成功！")
+                            window.location.href = "/user/list";
+                        }else if(rCode === "9999"){
+                            // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
+                            alert("不能删除当前登录的用户！")
+                        }else{
+                            alert("位置错误")
+                        }
+                    }
+                })
+            });
+        }
+
+        function toTestOne(){
+            //window.location.href = "/test/daohang";
+        }
+
+    </script>
+</html>
+

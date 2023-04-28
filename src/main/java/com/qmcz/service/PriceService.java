@@ -14,4 +14,6 @@ import com.qmcz.domain.vo.PriceVo;
 public interface PriceService extends IService<Price> {
 
     TransformData<PriceVo> selectPricePage(PriceVi vi);
+
+    TransformData<PriceVo> getUserListApi(PriceVi vi);
 }
