@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qmcz.mapper.PriceMapper">
+
+    <resultMap id="BaseResultMap" type="com.qmcz.domain.Price">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="commodityId" column="commodity_id" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="historyHighPrice" column="history_high_price" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,commodity_id,price,
+        history_high_price
+    </sql>
+    <select id="getPricePage" resultType="com.qmcz.domain.vo.PriceVo">
+        select
+            c.name as goodsName ,p.price
+        from commodity c
+            left join price p on c.id = p.commodity_id
+        where
+            1 = 1
+        <if test="vi.goodsName != null and vi.goodsName != ''">
+            and c.name like concat('%',#{vi.goodsName},'%')
+        </if>
+    </select>
+</mapper>
