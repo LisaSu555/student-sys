@@ -28,7 +28,7 @@ public class UserController {
 
     @RequestMapping("/list")
     public String getUserList(ModelMap modelMap, User user){
-        String queryName = user.getName();
+        String queryName = user.getUsername();
         TransformData<User> userListTrans = userService.getUserList(user);
         TransformData<User> userListApi = userService.getUserListApi(null);
         List<User> userList = userListTrans.getRows();
@@ -104,7 +104,7 @@ public class UserController {
     public List<User> getUserList(@PathVariable("name") String name , @PathVariable("age") Integer age){
         User user = new User();
         if(StringUtils.isNotBlank(name)){
-            user.setName(name);
+            user.setUsername(name);
         }
         if(age != null){
             user.setAge(age);

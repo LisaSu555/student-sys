@@ -69,7 +69,7 @@ public class LoginController {
                 //得到输入的账号和密码，和数据库中的所有数据进行对比
                 String inputName = loginUser.getName();
                 String inputPassword = loginUser.getPassword();
-                String name = userAccount.getName();
+                String name = userAccount.getUsername();
                 String psw = userAccount.getPsw();
 
                 if(inputName!=null&&inputName.equals(name)){

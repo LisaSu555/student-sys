@@ -4,7 +4,7 @@
 
 <mapper namespace="com.qmcz.mapper.UserMapper">
     <insert id="addUserByVi" parameterType="com.qmcz.domain.vi.UserVi">
-        insert into user(name, sex, authen_code, age, teacher_id, class_id, subject_id, phone)
+        insert into user(username, sex, authen_code, age, teacher_id, class_id, subject_id, phone)
         values(#{name}, #{sex}, #{authenCode}, #{age}, #{teacherId}, #{classId}, #{subjectId}, #{phone})
     </insert>
     <insert id="insertUserAccount" parameterType="com.qmcz.domain.vi.UserVi">
@@ -16,13 +16,13 @@
 
     <select id="selectUserList" resultType="com.qmcz.domain.User" parameterType="com.qmcz.domain.User">
         select
-          s.id  ,  s.name , s.sex , s.authen_code as authenCode,
+          s.id  ,  s.username, s.sex , s.authen_code as authenCode,
           s.age ,  1 as teacherId , s.class_id as classId ,
           1 as subjectId , 1 as phone
         from user s
         where 1 = 1
-        <if test="user.name != null and user.name != '' ">
-            and s.name like concat('%', #{user.name}, '%')
+        <if test="user.username != null and user.username != '' ">
+            and s.username like concat('%', #{user.username}, '%')
         </if>
         <if test="user.age != 0 and user.age != null">
             and s.age = #{user.age}
@@ -31,7 +31,7 @@
     </select>
     <select id="selectUserForEdit" resultType="com.qmcz.domain.vo.UserVoEdit">
         select
-            u.name,
+            u.username,
             u.age,
             u.sex,
             a.psw as password

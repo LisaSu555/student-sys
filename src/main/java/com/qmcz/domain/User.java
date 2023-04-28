@@ -15,7 +15,7 @@ import lombok.Data;
 public class User {
     @TableId("id")
     private Integer id;
-    private String name;
+    private String username;
     private Integer sex;
     private String authenCode;
     private int age;

@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
             return t;
         }
         // 传来的对象中的name不能为空
-        if(user.getName()==null || "".equals(user.getName())){
+        if(user.getUsername()==null || "".equals(user.getUsername())){
             t.setCode("1003");
             t.setMsg("修改的用户的名称必须填写");
             return t;
@@ -144,8 +144,8 @@ public class UserServiceImpl implements UserService {
             if(user.getId() != null){
                 qw.eq("id" , user.getId());
             }
-            if(user.getName() != null){
-                qw.like("name", user.getName());
+            if(user.getUsername() != null){
+                qw.like("name", user.getUsername());
             }
             if(user.getAuthenCode() != null){
                 qw.like("authen_code", user.getAuthenCode());
@@ -192,7 +192,7 @@ public class UserServiceImpl implements UserService {
             return tr;
         }else{
             LoginUser currentUser = UserGenerUtil.getCurrentUser();
-            if(currentUser.getName().equals(userNeedBeDeleted.getName())){
+            if(currentUser.getName().equals(userNeedBeDeleted.getUsername())){
                 tr.setCode("9999");
                 tr.setMsg("不能删除当前登录的用户");
                 return tr;

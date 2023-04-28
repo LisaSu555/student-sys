@@ -3,16 +3,9 @@
     <head>
         <meta charset="UTF-8"/>
         <title>userList</title>
-        <!--利用thymeleaf表达式获取css路径,bootstrap给button提供样式-->
-<!--        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />-->
-        <script type="text/javascript" th:src="@{/js/jquery3.6.js}"></script>
-<!--        <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>-->
-<!--        <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>-->
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <script type="text/javascript" th:src="@{/js/jquery3.6.js}"></script>
         <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <style>
-
-        </style>
     </head>
 
     <body class="container">
@@ -55,10 +48,11 @@
                 <!-- 遍历list数据 -->
                 <tr th:each="user:${list}">
                     <th th:text="${user.id}"></th>
-                    <th th:text="${user.name}"></th>
+                    <th th:text="${user.username}"></th>
                     <th th:text="${user.age}"></th>
                     <th th:if="${user.sex}=='1'">男</th>
                     <th th:if="${user.sex}=='0'">女</th>
+                    <th th:if="${user.sex}==null">未知</th>
                     <th>
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
                                 th:onclick="'editUser('+${user.id}+')'">修改</button>
@@ -117,6 +111,27 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+
+        <h2>创建模态框（Modal）</h2>
+        <!-- 按钮触发模态框 -->
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addModal">开始演示模态框</button>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="addModalLabel">模态框（Modal）标题</h4>
+                    </div>
+                    <div class="modal-body">在这里添加一些文本</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary">提交更改</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
         </div>
 
 
@@ -282,7 +297,7 @@
 
         // 搜索用户
         function searchUserByName(userName){
-            window.location.href = "/user/list?name="+userName;
+            window.location.href = "/user/list?username="+userName;
         }
 
         function saveUser() {
