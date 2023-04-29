@@ -22,5 +22,5 @@ public interface TeacherService {
 
     TransformData<Teacher> getTeacherList(Teacher teacher);
 
-    TransformData<Teacher> getTeacherListApi(Object o);
+    TransformData<Teacher> getTeacherListApi(Teacher teacher);
 }

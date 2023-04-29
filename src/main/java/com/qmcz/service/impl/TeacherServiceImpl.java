@@ -90,7 +90,20 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public TransformData<Teacher> getTeacherListApi(Object o) {
-        return null;
+    public TransformData<Teacher> getTeacherListApi(Teacher teacher) {
+        TransformData<Teacher> tr = new TransformData<>();
+        QueryWrapper<Teacher> qw = new QueryWrapper<>();
+        if(teacher!=null){
+            if(teacher.getName() != null && !"".equals(teacher.getName())){
+                qw.eq("name",teacher.getName());
+            }
+        }
+        List<Teacher> teacherList = teacherMapper.selectList(qw);
+        String msg = teacherList.size() > 0 ? "查询成功" : "没有数据";
+        String code = teacherList.size() > 0 ? "0000" : "0001";
+        tr.setRows(teacherList);
+        tr.setCode(code);
+        tr.setMsg(msg);
+        return tr;
     }
 }
