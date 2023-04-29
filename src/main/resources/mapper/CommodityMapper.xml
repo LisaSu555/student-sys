@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qmcz.mapper.CommodityMapper">
+
+    <resultMap id="BaseResultMap" type="com.qmcz.domain.Commodity">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="purchaseWay" column="purchase_way" jdbcType="INTEGER"/>
+            <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+            <result property="createDate" column="create_date" jdbcType="DATE"/>
+            <result property="updateDate" column="update_date" jdbcType="DATE"/>
+            <result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,purchase_way,
+        create_by,create_date,update_date,
+        delete_flag
+    </sql>
+    <select id="getCommodityList" resultType="com.qmcz.domain.vo.CommodityVo">
+        select
+            c.id ,
+            c.name,
+            p.price,
+            p.history_high_price as hisHighPrice,
+            pw.name as purchaseName
+        from
+            commodity c
+            left join price p
+            on c.id = p.commodity_id
+            left join purchase_way pw
+            on c.purchase_way = pw.id
+        where
+            delete_flag = 'no'
+        <if test="vi.purchaseName != null and vi.purchaseName != ''">
+            and pw.purchase_name like concat('%',#{vi.purchaseName},'%')
+        </if>
+    </select>
+</mapper>

@@ -43,10 +43,12 @@
                     <th th:if="${user.sex}=='0'">女</th>
                     <th th:if="${user.sex}==null">未知</th>
                     <th>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
-                                th:onclick="'editUser('+${user.id}+')'">修改</button>
-                        <button type="button" class="btn btn-danger btn-sm"
-                                th:onclick="'deleteUser('+${user.id}+')'">删除</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" th:onclick="'editUser('+${user.id}+')'">
+                            修改
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" th:onclick="'deleteUser('+${user.id}+')'">
+                            删除
+                        </button>
                     </th>
                 </tr>
             </table>
@@ -139,7 +141,7 @@
             // 加载分页按钮
             pageButtonView()
             //setButtonColor()
-            $('#html_core').load('/other/daohang?name=student');
+            $('#html_core').load('/other/daohang?name=user');
         })
 
         // 显示当前选中的按钮

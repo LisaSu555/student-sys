@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>teacherList</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+
+    <body class="container">
+        <div id="html_core">
+
+        </div>
+
+        <div><br/></div>
+
+        <!--    用户名称输入框    -->
+        <div>
+            <input style="width: 50%;display: revert" type="text" id="userNameSearchInput" class="form-control" placeholder="目前只能输入用户名称进行查询，按回车键搜索" />
+            <button class="btn btn-info" id="userNameSearchButton" type="button">
+                查询
+            </button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" onclick="clearWindow()">
+                新增
+            </button>
+        </div>
+
+        <div><br/></div>
+        <div id="listTable">
+
+        </div>
+
+        <!-- 模态框（Modal）用户新增和编辑 -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            新增/编辑
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div th:align="center">
+                            <!--隐藏一个id输入框用于编辑-->
+                            <input type="text" hidden id="hiddenIdInput" value="" name="id">
+                            <span class="glyphicon glyphicon-user"></span>账号/用户名
+                            <input type="text" style="width: 50%" id="account" onfocus="" class="form-control" name="name" required>
+                            <span class="glyphicon glyphicon-star"></span>密码
+                            <input type="text" style="width: 50%" id="psw" onfocus="" class="form-control" name="password" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="saveUser()">
+                            保存
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 删除提示框 -->
+        <div class="modal fade" id="delcfmModel">
+            <div class="modal-dialog">
+                <div class="modal-content message_align">
+                    <div class="modal-header">
+                        <h4 class="modal-title">确认信息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="delcfmMsg">您确认要删除吗？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <a class="btn btn-success" data-dismiss="modal" id="btnOkDelete" >确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/javascript" th:src="@{/js/jquery3.6.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    </body>
+
+    <script>
+
+        // 初始化页面时运行
+        $(function (){
+            // 加载头部导航栏
+            $('#html_core').load('/other/daohang?name=commodity');
+            // 加载教师数据
+            getCommodityData();
+        })
+
+        // 加载教师数据
+        function getCommodityData(){
+            let html = "";
+            // 使用ajax异步请求
+            $.ajax({
+                //为wed.xml的AjaxServlet的路径
+                url : "/commodity/list_api",
+                type : "POST",		//POST方法
+                // 入参对象
+                data : {
+                    //获取用户名的值传到AjaxServlet
+                    name : "",
+                },
+                // 入参对象格式：json
+                dataType : "application/json",
+                // 完成请求后
+                complete: function(r) {
+                    // 转换成json对象
+                    let rJson = $.parseJSON(r.responseText);
+                    let tableHtml = '<table class="table table-hover">';
+                    let dataList = rJson.rows;
+                    tableHtml += '<tr>';
+                    tableHtml += '<th th:width="100">商品id</th>';
+                    tableHtml += '<th th:width="100">商品名称</th>';
+                    tableHtml += '<th th:width="100">商品价格</th>';
+                    tableHtml += '<th th:width="100">历史最高价</th>';
+                    tableHtml += '<th th:width="100">采购渠道</th>';
+                    tableHtml += '<th th:width="100">操作</th>';
+                    tableHtml += '</tr>';
+                    console.log(dataList[0]);
+                    for(let i = 0; i < dataList.length; i++){
+                        let obj = dataList[i];
+                        tableHtml += '<tr>';
+                        tableHtml += '<th>'+obj.id+'</th>';
+                        tableHtml += '<th>'+obj.name+'</th>';
+                        tableHtml += '<th>'+obj.price+'</th>';
+                        tableHtml += '<th>'+obj.hisHighPrice+'</th>';
+                        tableHtml += '<th>'+obj.purchaseName+'</th>';
+                        tableHtml += '<th>';
+                        tableHtml += '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" th:onclick="\'editUser(\'+${user.id}+\')\'">';
+                        tableHtml += '修改';
+                        tableHtml += '</button>';
+                        tableHtml += '<button type="button" class="btn btn-danger btn-sm" th:onclick="\'deleteUser(\'+${user.id}+\')\'">';
+                        tableHtml += '删除';
+                        tableHtml += '</button>';
+                        tableHtml += '</th>';
+                        tableHtml += '</tr>';
+                    }
+                    tableHtml += '</table>';
+                    $("#listTable").html(tableHtml);
+                }
+            })
+        }
+
+    </script>
+</html>
+

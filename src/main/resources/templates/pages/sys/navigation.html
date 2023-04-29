@@ -19,17 +19,17 @@
             <!--向左对齐-->
             <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown">
-                    <a id="student" href="#" onclick="studentLink()" class="dropdown-toggle" data-toggle="dropdown">
+                    <a id="user" href="#" onclick="userLink()" class="dropdown-toggle" data-toggle="dropdown">
                         用户信息
                     </a>
                 </li>
                 <li>
-                    <a id="teacher" href="#" onclick="teacherLink()" class="dropdown-toggle" data-toggle="dropdown">
-                        教师信息
+                    <a id="commodity" href="#" onclick="commodityLink()" class="dropdown-toggle" data-toggle="dropdown">
+                        商品信息
                     </a>
                 </li>
                 <li>
-                    <a id="price" href="#" onclick="price()" class="dropdown-toggle" data-toggle="dropdown">
+                    <a id="price" href="#" onclick="priceLink()" class="dropdown-toggle" data-toggle="dropdown">
                         价格设置
                     </a>
                 </li>
@@ -55,28 +55,27 @@
     // 位当前页面的导航栏上色
     function setColorForNav(){
         let name = $("#pageName").val();
-        if(name === "student"){
-            // style="background-color: rgb(91,183,92)"
-            $("#student").css('background','pink');
-        }else if(name === "teacher"){
-            $("#teacher").css('background','pink');
+        if(name === "user"){
+            $("#user").css('background','pink');
+        }else if(name === "commodity"){
+            $("#commodity").css('background','pink');
         }else if(name === "price"){
             $("#price").css('background','pink');
         }
     }
 
     // 点击头部用户/学生链接
-    function studentLink(){
+    function userLink(){
         window.location.href = "/user/list";
     }
 
     // 点击头部教师链接
-    function teacherLink(){
-        window.location.href = "/teacher/list";
+    function commodityLink(){
+        window.location.href = "/commodity/list";
     }
 
     // 点击头部价格链接
-    function price(){
+    function priceLink(){
         window.location.href = "/price/list";
     }
 
