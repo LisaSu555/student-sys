@@ -24,6 +24,8 @@ public interface PriceMapper extends BaseMapper<Price> {
      * @return 出参
      */
     List<PriceVo> getPricePage(@Param("vi") PriceVi vi);
+
+    PriceVo getOnePrice(@Param("vi") PriceVi vi);
 }
 
 

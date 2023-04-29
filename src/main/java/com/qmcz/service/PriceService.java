@@ -16,4 +16,8 @@ public interface PriceService extends IService<Price> {
     TransformData<PriceVo> selectPricePage(PriceVi vi);
 
     TransformData<PriceVo> getUserListApi(PriceVi vi);
+
+    PriceVo getOnePrice(PriceVi vi);
+
+    TransformData<String> savePrice(PriceVi vi);
 }

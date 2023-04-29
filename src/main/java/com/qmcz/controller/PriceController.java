@@ -41,8 +41,21 @@ public class PriceController {
         int pageCount = (int)Math.ceil(dataCount / 10.0);
         modelMap.addAttribute("list", priceList);
         modelMap.addAttribute("query", queryName);
-        modelMap.addAttribute("userListSize", pageCount);
+        modelMap.addAttribute("listSize", pageCount);
         modelMap.addAttribute("currentPageNumber", vi.getPageNumber());
         return "pages/price/priceList";
+    }
+
+    @RequestMapping("/getOne")
+    @ResponseBody
+    public PriceVo getOnePrice(PriceVi priceVi){
+        PriceVo onePrice = priceService.getOnePrice(priceVi);
+        return onePrice;
+    }
+
+    @RequestMapping("/save")
+    @ResponseBody
+    public TransformData<String> savePrice(PriceVi vi){
+        return priceService.savePrice(vi);
     }
 }

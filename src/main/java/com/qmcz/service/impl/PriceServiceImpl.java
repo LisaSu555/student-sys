@@ -61,6 +61,32 @@ public class PriceServiceImpl extends ServiceImpl<PriceMapper, Price>
         // 返回响应对象
         return tr;
     }
+
+    @Override
+    public PriceVo getOnePrice(PriceVi vi) {
+        return priceMapper.getOnePrice(vi);
+    }
+
+    @Override
+    public TransformData<String> savePrice(PriceVi vi) {
+        TransformData<String> tr = new TransformData<>();
+        Price price = new Price();
+        if(vi != null){
+            if(vi.getPrice() != null){
+                price.setPrice(vi.getPrice());
+            }
+            if(vi.getId() != null){
+                price.setId(vi.getId());
+                priceMapper.updateById(price);
+            }
+            tr.setMsg("保存成功");
+            tr.setCode("0000");
+            return tr;
+        }
+        tr.setMsg("保存失败");
+        tr.setCode("0001");
+        return tr;
+    }
 }
 
 
