@@ -105,7 +105,7 @@
         </div>
 
         <!-- 删除提示框 -->
-        <div class="modal fade" id="delcfmModel">
+        <div class="modal fade" id="deleteModel">
             <div class="modal-dialog">
                 <div class="modal-content message_align">
                     <div class="modal-header">
@@ -370,7 +370,7 @@
         // 删除一条数据
         function deleteUser(id){
             //弹出提示框
-            $('#delcfmModel').modal({ backdrop: 'static', keyboard: false }).one('click', '#btnOkDelete', function() {
+            $('#deleteModel').modal({ backdrop: 'static', keyboard: false }).one('click', '#btnOkDelete', function() {
                 //这里放入点击确认后的代码
                 // 使用ajax异步请求
                 $.ajax({
