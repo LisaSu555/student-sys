@@ -18,4 +18,6 @@ public interface CommodityService extends IService<Commodity> {
     TransformData<CommodityVo> getCommodityList(CommodityVi vi);
 
     TransformData<CommodityVo> saveCommodity(CommodityVi vi);
+
+    TransformData<CommodityVo> getOneCommodityById(int id);
 }

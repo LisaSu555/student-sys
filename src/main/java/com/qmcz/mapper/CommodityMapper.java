@@ -19,6 +19,10 @@ import java.util.List;
 public interface CommodityMapper extends BaseMapper<Commodity> {
 
     List<CommodityVo> getCommodityList(@Param("vi") CommodityVi vi);
+
+    int getCommodityMaxId();
+
+    CommodityVo getCommodityVoById(@Param("id") int id);
 }
 
 

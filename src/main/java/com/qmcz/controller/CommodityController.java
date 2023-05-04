@@ -26,6 +26,12 @@ public class CommodityController {
         return commodityService.getCommodityList(vi);
     }
 
+    @RequestMapping("getOneById")
+    @ResponseBody
+    public TransformData<CommodityVo> getOneCommodityById(int id){
+        return commodityService.getOneCommodityById(id);
+    }
+
     @RequestMapping("save")
     @ResponseBody
     public TransformData<CommodityVo> saveCommodity(CommodityVi vi){

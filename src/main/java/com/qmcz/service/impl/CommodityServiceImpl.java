@@ -14,6 +14,7 @@ import com.qmcz.mapper.CommodityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,26 +55,48 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
             tr.setCode("9999");
             return tr;
         }
+        c.setCreateBy(1);
+        c.setUpdateDate(new Date());
+        c.setCreateDate(new Date());
+        c.setDeleteFlag("no");
+        c.setName(vi.getName());
+        c.setPurchaseWay(Integer.parseInt(vi.getPurchaseName()));
+        p.setPrice(vi.getPrice());
+        p.setHistoryHighPrice(vi.getHisHighPrice());
         if(vi.getId() == null){
-            c.setCreateBy(1);
-            c.setUpdateDate(new Date());
-            c.setCreateDate(new Date());
-            c.setDeleteFlag("no");
-            c.setName(vi.getName());
-            c.setPurchaseWay(1);
             commodityMapper.insert(c);
-            QueryWrapper<Commodity> qw = new QueryWrapper<>();
-            qw.orderByDesc("id");
-            List<Commodity> list = commodityMapper.selectList(qw);
-            int maxId = list.get(0).getId();
+            int maxId = commodityMapper.getCommodityMaxId();
+            p.setHistoryHighPrice(vi.getPrice());
             p.setCommodityId(maxId);
-            p.setPrice(vi.getPrice());
-            p.setHistoryHighPrice(vi.getHisHighPrice());
             priceMapper.insert(p);
             tr.setMsg("保存成功");
             tr.setRows(null);
             tr.setCode("0000");
+        }else{
+            Price price = priceMapper.selectById(vi.getId());
+            if(vi.getPrice().compareTo(price.getPrice()) > 0){
+                p.setHistoryHighPrice(vi.getPrice());
+            }
+            c.setId(vi.getId());
+            commodityMapper.updateById(c);
+            p.setCommodityId(vi.getId());
+            priceMapper.updateById(p);
+            tr.setMsg("编辑成功");
+            tr.setRows(null);
+            tr.setCode("0000");
         }
+        return tr;
+    }
+
+    @Override
+    public TransformData<CommodityVo> getOneCommodityById(int id) {
+        List<CommodityVo> list = new ArrayList<CommodityVo>();
+        TransformData<CommodityVo> tr = new TransformData<>();
+        CommodityVo vo = commodityMapper.getCommodityVoById(id);
+        tr.setCode("0000");
+        tr.setMsg("查询到了");
+        list.add(vo);
+        tr.setRows(list);
         return tr;
     }
 }

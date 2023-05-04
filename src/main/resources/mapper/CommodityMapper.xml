@@ -38,4 +38,25 @@
             and pw.purchase_name like concat('%',#{vi.purchaseName},'%')
         </if>
     </select>
+    <select id="getCommodityMaxId" resultType="java.lang.Integer">
+        select id from commodity order by id desc limit 1
+    </select>
+    <select id="getCommodityVoById" resultType="com.qmcz.domain.vo.CommodityVo">
+        select
+        c.id ,
+        c.name,
+        p.price,
+        p.history_high_price as hisHighPrice,
+        pw.name as purchaseName
+        from
+        commodity c
+        left join price p
+        on c.id = p.commodity_id
+        left join purchase_way pw
+        on c.purchase_way = pw.id
+        where
+        delete_flag = 'no'
+        and
+        c.id = #{id}
+    </select>
 </mapper>
