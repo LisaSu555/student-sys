@@ -16,4 +16,6 @@ import org.springframework.stereotype.Repository;
 public interface CommodityService extends IService<Commodity> {
 
     TransformData<CommodityVo> getCommodityList(CommodityVi vi);
+
+    TransformData<CommodityVo> saveCommodity(CommodityVi vi);
 }

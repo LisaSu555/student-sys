@@ -25,4 +25,10 @@ public class CommodityController {
     public TransformData<CommodityVo> getCommodityList(CommodityVi vi){
         return commodityService.getCommodityList(vi);
     }
+
+    @RequestMapping("save")
+    @ResponseBody
+    public TransformData<CommodityVo> saveCommodity(CommodityVi vi){
+        return commodityService.saveCommodity(vi);
+    }
 }
