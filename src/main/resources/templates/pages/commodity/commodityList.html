@@ -49,8 +49,14 @@
                             <input type="text" style="width: 50%" id="commodityName" onfocus="" class="form-control" name="name" required>
                             <span class="glyphicon glyphicon-tag"></span>商品价格
                             <input type="text" style="width: 50%" id="commodityPrice" onfocus="" class="form-control" name="price" required>
-                            <span class="glyphicon glyphicon-chevron-down"></span>采购方式(下拉框)
-                            <input type="text" style="width: 50%" id="purchaseName" onfocus="" class="form-control" name="purchaseName" required>
+                            <span class="glyphicon glyphicon-chevron-down"></span>采购方式
+                            <select style="width: 50%" name="purchaseName" id="purchaseName" class="form-control" >
+                                <option hidden id="editWayName" value=""></option>
+                                <!--<option th:selected="${appl.empowerNo} eq '0'" value="0">不授权</option>
+                                <option th:selected="${appl.empowerNo} eq '1'" value="1">本地授权</option>
+                                <option th:selected="${appl.empowerNo} eq '2'" value="2">远程授权</option>-->
+                                <option th:each="way:${purchaseWayList}" th:value="${way.id}" th:text="${way.name}"></option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -108,7 +114,7 @@
 
 
         <script type="text/javascript" th:src="@{/js/jquery3.6.js}"></script>
-        <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     </body>
 
     <script>
@@ -150,7 +156,6 @@
                     tableHtml += '<th th:width="100">采购渠道</th>';
                     tableHtml += '<th th:width="100">操作</th>';
                     tableHtml += '</tr>';
-                    console.log(dataList[0]);
                     for(let i = 0; i < dataList.length; i++){
                         let obj = dataList[i];
                         tableHtml += '<tr>';
@@ -160,10 +165,10 @@
                         tableHtml += '<th>'+obj.hisHighPrice+'</th>';
                         tableHtml += '<th>'+obj.purchaseName+'</th>';
                         tableHtml += '<th>';
-                        tableHtml += '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" th:onclick="editData('+obj.id+')">';
+                        tableHtml += '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="editData('+obj.id+')">';
                         tableHtml += '修改';
                         tableHtml += '</button>';
-                        tableHtml += '<button type="button" class="btn btn-danger btn-sm" th:onclick="\'deleteUser('+obj.id+')\'">';
+                        tableHtml += '<button type="button" class="btn btn-danger btn-sm" onclick="deleteData()">';
                         tableHtml += '删除';
                         tableHtml += '</button>';
                         tableHtml += '</th>';
@@ -220,7 +225,6 @@
         }
 
         function editData(id){
-            console.log("oooo");
             $("#hiddenIdInput").val(id);
             // 使用ajax异步请求
             $.ajax({
@@ -243,9 +247,11 @@
                     if(rCode === "0000"){
                         if(rJson.rows != null && rJson.rows.length > 0){
                             let dataOne = rJson.rows[0]
-                            console.log(dataOne)
                             if(dataOne !== undefined){
-
+                                $("#commodityName").val(dataOne.name);
+                                $("#commodityPrice").val(dataOne.price);
+                                $("#editWayName").html(dataOne.purchaseName)
+                                $("#editWayName").val(dataOne.purchaseWay)
                             }
                         }else {
                             return false;
@@ -256,6 +262,14 @@
                     }
                 }
             })
+        }
+
+        function deleteData(){
+            console.log("test");
+        }
+
+        function clearWindow(){
+
         }
 
     </script>

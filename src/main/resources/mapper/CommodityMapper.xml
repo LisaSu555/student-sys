@@ -39,7 +39,7 @@
         </if>
     </select>
     <select id="getCommodityMaxId" resultType="java.lang.Integer">
-        select id from commodity order by id desc limit 1
+        select max(id) from commodity order by id
     </select>
     <select id="getCommodityVoById" resultType="com.qmcz.domain.vo.CommodityVo">
         select
@@ -47,7 +47,8 @@
         c.name,
         p.price,
         p.history_high_price as hisHighPrice,
-        pw.name as purchaseName
+        pw.name as purchaseName,
+        pw.id as purchaseWay
         from
         commodity c
         left join price p

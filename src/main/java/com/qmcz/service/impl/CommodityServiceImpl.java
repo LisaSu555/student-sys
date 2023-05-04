@@ -57,13 +57,13 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
         c.setCreateBy(1);
         c.setUpdateDate(new Date());
-        c.setCreateDate(new Date());
         c.setDeleteFlag("no");
         c.setName(vi.getName());
         c.setPurchaseWay(Integer.parseInt(vi.getPurchaseName()));
         p.setPrice(vi.getPrice());
         p.setHistoryHighPrice(vi.getHisHighPrice());
         if(vi.getId() == null){
+            c.setCreateDate(new Date());
             commodityMapper.insert(c);
             int maxId = commodityMapper.getCommodityMaxId();
             p.setHistoryHighPrice(vi.getPrice());
@@ -73,14 +73,16 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
             tr.setRows(null);
             tr.setCode("0000");
         }else{
-            Price price = priceMapper.selectById(vi.getId());
-            if(vi.getPrice().compareTo(price.getPrice()) > 0){
+            QueryWrapper<Price> qw = new QueryWrapper<>();
+            qw.eq("commodity_id",vi.getId());
+            Price price = priceMapper.selectOne(qw);
+            if(vi.getPrice().compareTo(price.getHistoryHighPrice()) > 0){
                 p.setHistoryHighPrice(vi.getPrice());
             }
             c.setId(vi.getId());
             commodityMapper.updateById(c);
             p.setCommodityId(vi.getId());
-            priceMapper.updateById(p);
+            priceMapper.update(p,qw);
             tr.setMsg("编辑成功");
             tr.setRows(null);
             tr.setCode("0000");
