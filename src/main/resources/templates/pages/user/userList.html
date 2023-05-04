@@ -336,7 +336,6 @@
                     if(rCode === "0000"){
                         if(rJson.rows != null && rJson.rows.length > 0){
                             let user = rJson.rows[0]
-                            console.log(user)
                             if(user !== undefined){
                                 $("#account").val(user.username);
                                 $("#psw").val(user.password);
