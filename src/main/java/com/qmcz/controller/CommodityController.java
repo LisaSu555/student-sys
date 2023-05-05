@@ -1,11 +1,14 @@
 package com.qmcz.controller;
 
 import com.qmcz.base.TransformData;
+import com.qmcz.domain.MyRepository;
 import com.qmcz.domain.PurchaseWay;
 import com.qmcz.domain.vi.CommodityVi;
 import com.qmcz.domain.vo.CommodityVo;
+import com.qmcz.mapper.RepositoryMapper;
 import com.qmcz.service.CommodityService;
 import com.qmcz.service.PurchaseWayService;
+import com.qmcz.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +26,15 @@ public class CommodityController {
     @Autowired
     private PurchaseWayService purchaseWayService;
 
+    @Autowired
+    private RepositoryService repositoryService;
+
     @RequestMapping("/list")
     public String toCommodityPage(Model modle){
         List<PurchaseWay> purchaseWayList = purchaseWayService.getAllPurchaseWays();
+        List<MyRepository> repoList = repositoryService.getAllRepos();
         modle.addAttribute("purchaseWayList",purchaseWayList);
+        modle.addAttribute("baseList",repoList);
         return "pages/commodity/commodityList";
     }
 

@@ -16,4 +16,7 @@
         id,name,address,
         create_by,delete_flag
     </sql>
+    <select id="getAllRepos" resultType="com.qmcz.domain.MyRepository">
+        select * from repository
+    </select>
 </mapper>

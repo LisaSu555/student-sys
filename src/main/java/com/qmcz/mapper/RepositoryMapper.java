@@ -4,6 +4,8 @@ import com.qmcz.domain.MyRepository;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
 * @author hp
 * @description 针对表【repository】的数据库操作Mapper
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RepositoryMapper extends BaseMapper<MyRepository> {
 
+
+    List<MyRepository> getAllRepos();
 }
 
 

@@ -10,4 +10,5 @@ public class CommodityVi extends Commodity {
     private String purchaseName;
     private BigDecimal price;
     private BigDecimal hisHighPrice;
+    private Integer baseId;
 }

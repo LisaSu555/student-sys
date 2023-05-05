@@ -25,15 +25,17 @@
             c.name,
             p.price,
             p.history_high_price as hisHighPrice,
-            pw.name as purchaseName
+            pw.name as purchaseName,
+            r.name as baseName
         from
             commodity c
             left join price p
             on c.id = p.commodity_id
             left join purchase_way pw
             on c.purchase_way = pw.id
+            left join repository r on r.id = c.base_address
         where
-            delete_flag = 'no'
+            c.delete_flag = 'no'
         <if test="vi.purchaseName != null and vi.purchaseName != ''">
             and pw.purchase_name like concat('%',#{vi.purchaseName},'%')
         </if>

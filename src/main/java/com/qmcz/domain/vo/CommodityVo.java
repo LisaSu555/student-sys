@@ -10,4 +10,5 @@ public class CommodityVo extends Commodity {
     private BigDecimal price;
     private BigDecimal hisHighPrice;
     private String purchaseName;
+    private String baseName;
 }

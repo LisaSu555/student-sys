@@ -52,10 +52,11 @@
                             <span class="glyphicon glyphicon-chevron-down"></span>采购方式
                             <select style="width: 50%" name="purchaseName" id="purchaseName" class="form-control" >
                                 <option hidden id="editWayName" value=""></option>
-                                <!--<option th:selected="${appl.empowerNo} eq '0'" value="0">不授权</option>
-                                <option th:selected="${appl.empowerNo} eq '1'" value="1">本地授权</option>
-                                <option th:selected="${appl.empowerNo} eq '2'" value="2">远程授权</option>-->
                                 <option th:each="way:${purchaseWayList}" th:value="${way.id}" th:text="${way.name}"></option>
+                            </select>
+                            <select style="width: 50%" name="purchaseName" id="baseId" class="form-control" >
+                                <option hidden id="editBaseName" value=""></option>
+                                <option th:each="base:${baseList}" th:value="${base.id}" th:text="${base.name}"></option>
                             </select>
                         </div>
                     </div>
@@ -154,6 +155,7 @@
                     tableHtml += '<th th:width="100">商品价格</th>';
                     tableHtml += '<th th:width="100">历史最高价</th>';
                     tableHtml += '<th th:width="100">采购渠道</th>';
+                    tableHtml += '<th th:width="100">基地名称</th>';
                     tableHtml += '<th th:width="100">操作</th>';
                     tableHtml += '</tr>';
                     for(let i = 0; i < dataList.length; i++){
@@ -164,6 +166,7 @@
                         tableHtml += '<th>'+obj.price+'</th>';
                         tableHtml += '<th>'+obj.hisHighPrice+'</th>';
                         tableHtml += '<th>'+obj.purchaseName+'</th>';
+                        tableHtml += '<th>'+obj.baseName+'</th>';
                         tableHtml += '<th>';
                         tableHtml += '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="editData('+obj.id+')">';
                         tableHtml += '修改';

@@ -5,6 +5,8 @@ import com.qmcz.domain.MyRepository;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qmcz.domain.vi.RepositoryVi;
 
+import java.util.List;
+
 /**
 * @author hp
 * @description 针对表【repository】的数据库操作Service
@@ -17,4 +19,6 @@ public interface RepositoryService extends IService<MyRepository> {
     TransformData<MyRepository> getOneById(RepositoryVi vi);
 
     TransformData<MyRepository> deleteById(RepositoryVi vi);
+
+    List<MyRepository> getAllRepos();
 }

@@ -82,6 +82,11 @@ public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, MyRepos
         tr.setMsg("删除了");
         return tr;
     }
+
+    @Override
+    public List<MyRepository> getAllRepos() {
+        return repositoryMapper.getAllRepos();
+    }
 }
 
 
