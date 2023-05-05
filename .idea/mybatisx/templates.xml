@@ -69,12 +69,13 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="PurchaseWay" />
-                  <option name="tableName" value="purchase_way" />
+                  <option name="className" value="Repository" />
+                  <option name="tableName" value="repository" />
                 </TableUIInfo>
               </list>
             </option>
             <option name="templatesName" value="mybatis-plus3" />
+            <option name="useLombokPlugin" value="true" />
           </GenerateConfig>
         </option>
         <option name="moduleName" value="student-sys" />

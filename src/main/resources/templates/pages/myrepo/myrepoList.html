@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>teacherList</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+
+    <body class="container">
+        <div id="html_core">
+
+        </div>
+
+        <div><br/></div>
+
+        <!--    用户名称输入框    -->
+        <div>
+            <input style="width: 50%;display: revert" type="text" id="userNameSearchInput" class="form-control" placeholder="目前只能输入用户名称进行查询，按回车键搜索" />
+            <button class="btn btn-info" id="userNameSearchButton" type="button">
+                查询
+            </button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" onclick="clearWindow()">
+                新增
+            </button>
+        </div>
+
+        <div><br/></div>
+        <div id="listTable">
+
+        </div>
+
+        <!--分页组件-->
+        <div>
+            <ul class="pager">
+                <li class="previous"><a onclick="dataPage('back')">&larr; 上一页</a></li>
+                <li class="next"><a onclick="dataPage('front')">下一页 &rarr;</a></li>
+            </ul>
+        </div>
+
+        <!-- 模态框（Modal）用户新增和编辑 -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            新增/编辑
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div th:align="center">
+                            <!--隐藏一个id输入框用于编辑-->
+                            <input type="text" hidden id="hiddenIdInput" value="" name="id">
+                            <span class="glyphicon glyphicon-gift"></span>仓库名称
+                            <input type="text" style="width: 50%" id="repoName" onfocus="" class="form-control" name="name" required>
+                            <span class="glyphicon glyphicon-tag"></span>仓库地址
+                            <input type="text" style="width: 50%" id="repoAddress" onfocus="" class="form-control" name="price" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="saveData()">
+                            保存
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 删除提示框 -->
+        <div class="modal fade" id="deleteModel">
+            <div class="modal-dialog">
+                <div class="modal-content message_align">
+                    <div class="modal-header">
+                        <h4 class="modal-title">确认信息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="delcfmMsg">您确认要删除吗？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <a class="btn btn-success" data-dismiss="modal" id="btnOkDelete" >确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 更新保存完成后的提示框 -->
+        <div class="modal fade" id="saveAndEditModel">
+            <div class="modal-dialog">
+                <div class="modal-content message_align">
+                    <div class="modal-header">
+                        <h4 class="modal-title">提示信息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="saveOrEdit">操作完成</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-success" data-dismiss="modal" id="okMsg" >确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 删除完成后的提示框 -->
+        <div class="modal fade" id="deleteOkModel">
+            <div class="modal-dialog">
+                <div class="modal-content message_align">
+                    <div class="modal-header">
+                        <h4 class="modal-title">提示信息</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="deleteOk">删除完成</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-success" data-dismiss="modal" id="okMsg2" >确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/javascript" th:src="@{/js/jquery3.6.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    </body>
+
+    <script>
+
+        /*初始加载页面，当前页pageStart===1*/
+        let pageStart = 1;
+        let pageSize = 10;
+        let pageNumber = 10;
+        let allCount = 0;
+        // 初始化页面时运行
+        $(function (){
+            // 加载头部导航栏
+            $('#html_core').load('/other/daohang?name=myrepo');
+            // 加载教师数据
+            getData(pageStart,pageSize,pageNumber);
+        })
+
+        // 加载教师数据
+        function getData(pageStart,pageSize,pageNumber){
+            let html = "";
+            // 使用ajax异步请求
+            $.ajax({
+                //为wed.xml的AjaxServlet的路径
+                url : "/repo/list_api",
+                type : "POST",		//POST方法
+                // 入参对象
+                data : {
+                    //获取用户名的值传到AjaxServlet
+                    name : "",
+                    pageStart:pageStart,
+                    pageSize:pageSize,
+                    pageNumber:pageNumber
+                },
+                // 入参对象格式：json
+                dataType : "application/json",
+                // 完成请求后
+                complete: function(r) {
+                    // 转换成json对象
+                    let rJson = $.parseJSON(r.responseText);
+                    allCount = parseInt(rJson.msg.replace("查到了",""))
+                    let tableHtml = '<table class="table table-hover">';
+                    let dataList = rJson.rows;
+                    tableHtml += '<tr>';
+                    tableHtml += '<th th:width="100">仓库id</th>';
+                    tableHtml += '<th th:width="100">仓库名称</th>';
+                    tableHtml += '<th th:width="100">仓库地址</th>';
+                    tableHtml += '<th th:width="100">操作</th>';
+                    tableHtml += '</tr>';
+                    for(let i = 0; i < dataList.length; i++){
+                        let obj = dataList[i];
+                        tableHtml += '<tr>';
+                        tableHtml += '<th>'+obj.id+'</th>';
+                        tableHtml += '<th>'+obj.name+'</th>';
+                        tableHtml += '<th>'+obj.address+'</th>';
+                        tableHtml += '<th>';
+                        tableHtml += '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="editData('+obj.id+')">';
+                        tableHtml += '修改';
+                        tableHtml += '</button>';
+                        tableHtml += '<button type="button" class="btn btn-danger btn-sm" onclick="deleteData('+obj.id+')">';
+                        tableHtml += '删除';
+                        tableHtml += '</button>';
+                        tableHtml += '</th>';
+                        tableHtml += '</tr>';
+                    }
+                    tableHtml += '</table>';
+                    $("#listTable").html(tableHtml);
+                }
+            })
+        }
+
+        /*保存数据，新增和编辑共用一个方法*/
+        function saveData(){
+            $.ajax({
+                //为wed.xml的AjaxServlet的路径
+                url : "/repo/save",
+                type : "POST",		//POST方法
+                // 入参对象
+                data : {
+                    id : $("#hiddenIdInput").val(),
+                    //获取用户名的值传到AjaxServlet
+                    name : $("#repoName").val(),
+                    //获取密码的值传到AjaxServlet
+                    address : $("#repoAddress").val()
+                },
+                // 入参对象格式：json
+                dataType : "application/json",
+                // 完成请求后
+                complete: function(r) {
+                    // 得到响应参数文本值的json对象。即将string转换成json
+                    let rJson = $.parseJSON(r.responseText);
+                    // 得到转化后的json的code属性
+                    let rCode = rJson.code;
+                    $('#myModal').modal('hide');
+                    if(rCode === "0000"){
+                        msgModel();
+                    }else {
+                        // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
+                        if(rCode === '0002'){
+                            alert("不知道怎么了")
+                        }else {
+                            alert("未知错误")
+                        }
+                    }
+                }
+            })
+        }
+
+        function msgModel(){
+            $('#saveAndEditModel').modal({ backdrop: 'static', keyboard: false }).one('click', '#okMsg', function() {
+                getData(pageStart,pageSize,pageNumber);
+            })
+        }
+
+        function deleteMsgModel(){
+            $('#deleteOkModel').modal({ backdrop: 'static', keyboard: false }).one('click', '#okMsg2', function() {
+                getData(pageStart,pageSize,pageNumber);
+            })
+        }
+
+        function editData(id){
+            $("#hiddenIdInput").val(id);
+            // 使用ajax异步请求
+            $.ajax({
+                //为wed.xml的AjaxServlet的路径
+                url : "/repo/getOneById",
+                type : "POST",		//POST方法
+                // 入参对象
+                data : {
+                    //获取用户名的值传到AjaxServlet
+                    id : id
+                },
+                // 入参对象格式：json
+                dataType : "application/json",
+                // 完成请求后
+                complete: function(r) {
+                    // 得到响应参数文本值的json对象。即将string转换成json
+                    let rJson = $.parseJSON(r.responseText);
+                    // 得到转化后的json的code属性
+                    let rCode = rJson.code;
+                    if(rCode === "0000"){
+                        const oneData = rJson.oneData;
+                        if(oneData != null){
+                            if(oneData !== undefined){
+                                $("#repoName").val(oneData.name);
+                                $("#repoAddress").val(oneData.address);
+                            }
+                        }else {
+                            return false;
+                        }
+                    }else {
+                        // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
+                        alert("未知错误")
+                    }
+                }
+            })
+        }
+
+        // 删除一条数据
+        function deleteData(id){
+            //弹出提示框
+            $('#deleteModel').modal({ backdrop: 'static', keyboard: false }).one('click', '#btnOkDelete', function() {
+                //这里放入点击确认后的代码
+                // 使用ajax异步请求
+                $.ajax({
+                    //为wed.xml的AjaxServlet的路径
+                    url : "/repo/deleteById",
+                    type : "POST",		//POST方法
+                    // 入参对象
+                    data : {
+                        //获取用户名的值传到AjaxServlet
+                        id : id
+                    },
+                    // 入参对象格式：json
+                    dataType : "application/json",
+                    // 完成请求后
+                    complete: function(r) {
+                        // 得到响应参数文本值的json对象。即将string转换成json
+                        let rJson = $.parseJSON(r.responseText);
+                        // 得到转化后的json的code属性
+                        let rCode = rJson.code;
+                        if(rCode === "0000"){
+                            deleteMsgModel();
+                        }else if(rCode === "9999"){
+                            // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
+                            alert("不能删除当前登录的用户！")
+                        }else{
+                            alert("位置错误")
+                        }
+                    }
+                })
+            });
+        }
+
+        /*上一页下一页*/
+        function dataPage(order){
+            /*上一页*/
+            if(order === "back"){
+                if(pageStart > 1){
+                    pageStart = pageStart - 1;
+                    getData(pageStart,pageSize,pageNumber);
+                }
+            }else{
+                /*全部数量减去已经被分页的数量后还存在数据，说明可以继续分页*/
+                if(allCount - pageSize * pageStart > 0){
+                    pageStart = pageStart + 1;
+                    getData(pageStart,pageSize,pageNumber);
+                }
+            }
+        }
+
+        function clearWindow(){
+
+        }
+
+    </script>
+</html>
+

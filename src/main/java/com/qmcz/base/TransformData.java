@@ -16,4 +16,5 @@ public class TransformData<T> {
     private List<T> rows;
     private String code;
     private String msg;
+    private T oneData;
 }

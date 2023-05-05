@@ -13,6 +13,7 @@ import com.qmcz.service.CommodityService;
 import com.qmcz.mapper.CommodityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +46,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         return tr;
     }
 
+    @Transactional
     @Override
     public TransformData<CommodityVo> saveCommodity(CommodityVi vi) {
         TransformData<CommodityVo> tr = new TransformData<>();

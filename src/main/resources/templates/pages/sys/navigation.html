@@ -33,6 +33,11 @@
                         价格设置
                     </a>
                 </li>
+                <li>
+                    <a id="myrepo" href="#" onclick="myrepoLink()" class="dropdown-toggle" data-toggle="dropdown">
+                        仓库管理
+                    </a>
+                </li>
             </ul>
             <!--向右对齐-->
             <ul class="nav navbar-nav navbar-right" style="padding-top: 12px;border-width: 0px">
@@ -61,6 +66,8 @@
             $("#commodity").css('background','pink');
         }else if(name === "price"){
             $("#price").css('background','pink');
+        }else if(name === "myrepo"){
+            $("#myrepo").css('background','pink');
         }
     }
 
@@ -69,7 +76,7 @@
         window.location.href = "/user/list";
     }
 
-    // 点击头部教师链接
+    // 点击头部商品链接
     function commodityLink(){
         window.location.href = "/commodity/list";
     }
@@ -77,6 +84,11 @@
     // 点击头部价格链接
     function priceLink(){
         window.location.href = "/price/list";
+    }
+
+    // 点击头部仓库链接
+    function myrepoLink(){
+        window.location.href = "/repo/list";
     }
 
     // 退出登录
