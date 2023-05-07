@@ -38,6 +38,11 @@
                         仓库管理
                     </a>
                 </li>
+                <li>
+                    <a id="other" href="#" onclick="otherLink()" class="dropdown-toggle" data-toggle="dropdown">
+                        其他
+                    </a>
+                </li>
             </ul>
             <!--向右对齐-->
             <ul class="nav navbar-nav navbar-right" style="padding-top: 12px;border-width: 0px">
@@ -68,6 +73,8 @@
             $("#price").css('background','pink');
         }else if(name === "myrepo"){
             $("#myrepo").css('background','pink');
+        }else if(name === "other"){
+            $("#other").css('background','pink');
         }
     }
 
@@ -89,6 +96,11 @@
     // 点击头部仓库链接
     function myrepoLink(){
         window.location.href = "/repo/list";
+    }
+
+    // 点击头部仓库链接
+    function otherLink(){
+        window.location.href = "/other/list";
     }
 
     // 退出登录

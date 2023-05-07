@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>teacherList</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+
+    <body class="container">
+        <div id="html_core">
+
+        </div>
+
+        <div><br/></div>
+
+        <!--    用户名称输入框    -->
+        <div>
+            <input style="width: 50%;display: revert" type="text" id="userNameSearchInput" class="form-control" placeholder="目前只能输入用户名称进行查询，按回车键搜索" />
+            <button class="btn btn-info" id="userNameSearchButton" type="button" onclick="youxiwang('')">
+                查询
+            </button>
+        </div>
+
+        <div id="listTable">
+
+        </div>
+
+        <div><br/></div>
+        <script type="text/javascript" th:src="@{/js/jquery3.6.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    </body>
+
+    <script>
+
+        // 初始化页面时运行
+        $(function (){
+            // 加载头部导航栏
+            $('#html_core').load('/other/daohang?name=other');
+            youxiwang("青眼白龙")
+        })
+
+        // 查询什么
+        function youxiwang(name1){
+            let name = $("#userNameSearchInput").val();
+            if(name1 !==null && name1 !== ''){
+                name = name1
+            }
+            // 使用ajax异步请求
+            $.ajax({
+                //为wed.xml的AjaxServlet的路径
+                url : "https://api.wpfzhy.cn/api/yugioh/card?name="+name+"&lang=sc&source=",
+                type : "GET",		//POST方法
+                // 完成请求后
+                complete: function(r) {
+                    let rJson = $.parseJSON(r.responseText);
+                    let dataList = rJson.data;
+                    let tableHtml = '<table class="table table-hover">';
+                    tableHtml += '<tr>';
+                    tableHtml += '<th th:width="10">卡片id</th>';
+                    tableHtml += '<th th:width="10">卡片名称</th>';
+                    tableHtml += '<th th:width="10">等级/星级</th>';
+                    tableHtml += '<th th:width="10">攻击力</th>';
+                    tableHtml += '<th th:width="10">防御力</th>';
+                    tableHtml += '<th th:width="100">卡片描述</th>';
+                    tableHtml += '<th th:width="10">属性值</th>';
+                    tableHtml += '<th th:width="10">卡片稀有值</th>';
+                    tableHtml += '<th th:width="10">卡片编码</th>';
+                    tableHtml += '</tr>';
+                    for(let i = 0; i < dataList.length; i++){
+                        let obj = dataList[i];
+                        tableHtml += '<tr>';
+                        tableHtml += '<th>'+obj.id+'</th>';
+                        tableHtml += '<th>'+obj.name+'</th>';
+                        tableHtml += '<th>'+obj.level+'</th>';
+                        tableHtml += '<th>'+obj.atk+'</th>';
+                        tableHtml += '<th>'+obj.def+'</th>';
+                        tableHtml += '<th>'+obj.desc+'</th>';
+                        tableHtml += '<th>'+obj.attribute+'</th>';
+                        tableHtml += '<th>'+obj.race+'</th>';
+                        tableHtml += '<th>'+obj.type+'</th>';
+                        tableHtml += '</tr>';
+                    }
+                    tableHtml += '</table>';
+                    $("#listTable").html(tableHtml);
+                }
+            })
+        }
+
+    </script>
+</html>
+

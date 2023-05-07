@@ -19,4 +19,9 @@ public class OtherController {
         map.addAttribute("pageName", name);
         return "pages/sys/navigation";
     }
+
+    @RequestMapping("/list")
+    public String toOtherPage(){
+        return "pages/other/other";
+    }
 }
