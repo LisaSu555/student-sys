@@ -35,6 +35,7 @@ public class DeleteOne {
      * 强制删除
      * @param fileName 文件名称
      * @return 不知道的什么值
+     * @description 不知在干什么
      */
     public static boolean forceDelete(String fileName)
     {
