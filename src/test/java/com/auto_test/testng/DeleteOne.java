@@ -33,8 +33,8 @@ public class DeleteOne {
 
     /**
      * 强制删除
-     * @param fileName
-     * @return
+     * @param fileName 文件名称
+     * @return 不知道的什么值
      */
     public static boolean forceDelete(String fileName)
     {
