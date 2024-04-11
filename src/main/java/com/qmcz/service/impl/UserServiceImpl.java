@@ -66,12 +66,13 @@ public class UserServiceImpl implements UserService {
         if(user.getId() != null){
             User userTarget = new User();
             BeanUtils.copyProperties(user, userTarget);
+            userTarget.setUsername(user.getName());
             int i = userMapper.updateById(userTarget);
             t = DataJudge.judgeOperateResult(i, "修改", "1001", "失败");
         }else{
             // 查询新增的用户名称是否已经存在数据库， 即不能添加相同名称的用户
             QueryWrapper<User> qw = new QueryWrapper<>();
-            qw.eq("name", user.getName());
+            qw.eq("username", user.getName());
             List<User> userList = userMapper.selectList(qw);
             // 名称相同就直接返回消息
             if(userList != null && userList.size() > 0){

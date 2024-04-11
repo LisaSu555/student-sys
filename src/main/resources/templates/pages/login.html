@@ -95,8 +95,16 @@
 
     /**
      * 登录请求后根据后台传来的值进行下一步骤
+     * 按键被点击后传递账号密码到后台
      */
     $("#login").click(function () {
+        login2();
+    })
+
+    /**
+     * 实际往后台传递数值的方法
+     */
+    function login2 (){
         // 使用ajax异步请求
         $.ajax({
             //为wed.xml的AjaxServlet的路径
@@ -127,6 +135,16 @@
                 }
             }
         })
+    }
+
+    /**
+     * 鼠标失焦后消除消息提示
+     */
+    $("#account").focus(function (){
+        clearMsg();
+    })
+    $("#psw").focus(function (){
+        clearMsg();
     })
 
     /**
@@ -140,5 +158,16 @@
     function tishiText(text) {
         $("#tishi").text(text);
     }
+
+    /**
+     * test keys listen
+     * on login page press enter to log in
+     **/
+    $('body').keyup(function(e){
+        if(e.keyCode===13){
+            login2();
+        }
+    })
+
 </script>
 </html>
