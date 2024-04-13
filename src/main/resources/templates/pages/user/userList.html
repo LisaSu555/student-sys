@@ -3,7 +3,12 @@
     <head>
         <meta charset="UTF-8"/>
         <title>userList</title>
-        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <script type="text/javascript" th:src="@{/js/jquery2.1.4.js}"></script>
+
+        <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     </head>
 
     <body class="container">
@@ -46,7 +51,7 @@
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" th:onclick="'editUser('+${user.id}+')'">
                             修改
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm" th:onclick="'deleteUser('+${user.id}+')'">
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModel" th:onclick="'deleteUser('+${user.id}+')'">
                             删除
                         </button>
                     </th>
@@ -111,8 +116,10 @@
                     <div class="modal-header">
                         <h4 class="modal-title">确认信息</h4>
 
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>            </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
                     <div class="modal-body">
                         <p id="delcfmMsg">您确认要删除吗？</p>
                     </div>
@@ -126,8 +133,7 @@
 
 
 
-        <script type="text/javascript" th:src="@{/js/jquery3.6.js}"></script>
-        <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
     </body>
 
     <script>
@@ -397,7 +403,7 @@
                             // 返回的不是0000表示后台报错，异常情况需要考虑到，提示信息给一个报错。
                             alert("不能删除当前登录的用户！")
                         }else{
-                            alert("位置错误")
+                            alert("未知错误")
                         }
                     }
                 })
