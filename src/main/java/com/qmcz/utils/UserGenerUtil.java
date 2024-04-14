@@ -1,6 +1,5 @@
 package com.qmcz.utils;
 
-import com.qmcz.domain.User;
 import com.qmcz.domain.vi.LoginUser;
 import lombok.Data;
 

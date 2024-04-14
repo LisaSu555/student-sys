@@ -5,13 +5,10 @@ import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
 import com.qmcz.domain.vi.LoginUser;
 import com.qmcz.domain.vi.UserVi;
-import com.qmcz.domain.vo.UserAccount;
 import com.qmcz.domain.vo.UserVoEdit;
-import com.qmcz.mapper.NormalQueryMapper;
 import com.qmcz.mapper.UserMapper;
 import com.qmcz.service.UserService;
 import com.qmcz.utils.DataJudge;
-import com.qmcz.utils.TimeUtil;
 import com.qmcz.utils.UserGenerUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +25,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private NormalQueryMapper normalQueryMapper;
 
     @Override
     public TransformData<User> getUserList(User user) {
@@ -191,13 +185,6 @@ public class UserServiceImpl implements UserService {
             tr.setCode("2004");
             tr.setMsg("删除的用户不存在");
             return tr;
-        }else{
-            LoginUser currentUser = UserGenerUtil.getCurrentUser();
-            if(currentUser.getName().equals(userNeedBeDeleted.getUsername())){
-                tr.setCode("9999");
-                tr.setMsg("不能删除当前登录的用户");
-                return tr;
-            }
         }
         int deleteCount = userMapper.deleteById(user.getId());
         int deleteUserAccount = userMapper.deleteUserAccount(user.getId());
