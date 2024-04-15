@@ -31,6 +31,7 @@ public class LoginController {
 
     /**
      * 直接跳转到登陆界面
+     * 浏览器输入localhost:8083/login 后执行这个方法
      * @return 登录界面的跳转
      */
     @RequestMapping("")

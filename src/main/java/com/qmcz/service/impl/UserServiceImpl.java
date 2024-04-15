@@ -3,13 +3,11 @@ package com.qmcz.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qmcz.base.TransformData;
 import com.qmcz.domain.User;
-import com.qmcz.domain.vi.LoginUser;
 import com.qmcz.domain.vi.UserVi;
 import com.qmcz.domain.vo.UserVoEdit;
 import com.qmcz.mapper.UserMapper;
 import com.qmcz.service.UserService;
 import com.qmcz.utils.DataJudge;
-import com.qmcz.utils.UserGenerUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public TransformData<User> addUser(UserVi user) {
+        //int a = 1 / 0;
         TransformData<User> t = new TransformData<>();
         // 非空判断
         if(user == null || user.getName() == null){
@@ -78,14 +77,22 @@ public class UserServiceImpl implements UserService {
             int insertCount = userMapper.addUserByVi(user);
             // 插入后得到这个新增的对象
             User userAdd = userMapper.selectOne(qw);
-            // user即userVi，vi对象得到user的id，准备插入userAccount表
-            user.setUserId(userAdd.getId());
-            int vii = userMapper.insertUserAccount(user);
-            TransformData vit = DataJudge.judgeOperateResult(vii, "账户新增", "4001", "失败");
-            if(vit.getCode().equals("4001")){
+            if(userAdd != null){
+                // user即userVi，vi对象得到user的id，准备插入userAccount表
+                //BeanUtils.copyProperties(userAdd,user);
+                user.setUserId(userAdd.getId());
+                user.setName(userAdd.getUsername());
+                int vii = userMapper.insertUserAccount(user);
+                TransformData vit = DataJudge.judgeOperateResult(vii, "账户新增", "4001", "失败");
+                if(vit.getCode().equals("4001")){
                 return vit;
+                }
+                t = DataJudge.judgeOperateResult(insertCount, "插入", "0001", "失败");
+            }else {
+                t.setCode("9999");
+                t.setMsg("未知错误");
             }
-            t = DataJudge.judgeOperateResult(insertCount, "插入", "0001", "失败");
+
         }
         return t;
     }
@@ -178,6 +185,7 @@ public class UserServiceImpl implements UserService {
             tr.setCode("1002");
             return tr;
         }
+
         // 所以可以只传来一个id，需要使用id查询这个user
         User userNeedBeDeleted = userMapper.selectById(user.getId());
         // 判断传来的对象的id是否存在于数据库
@@ -186,6 +194,17 @@ public class UserServiceImpl implements UserService {
             tr.setMsg("删除的用户不存在");
             return tr;
         }
+
+        // 判断是否是正在登录的角色
+//        LoginUser loginUser = UserGenerUtil.getCurrentUser();
+//        if(loginUser != null){
+//            if(loginUser.getName().equals(userNeedBeDeleted.getUsername())){
+//                tr.setCode("2005");
+//                tr.setMsg("该用户正在登录，无法删除");
+//                return tr;
+//            }
+//        }
+
         int deleteCount = userMapper.deleteById(user.getId());
         int deleteUserAccount = userMapper.deleteUserAccount(user.getId());
         tr = DataJudge.judgeOperateResult(deleteCount, "删除", "1001", "失败");

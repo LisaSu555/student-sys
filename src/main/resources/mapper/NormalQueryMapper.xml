@@ -5,6 +5,14 @@
 <mapper namespace="com.qmcz.mapper.NormalQueryMapper" >
 
     <select id="selectData" resultType="com.qmcz.domain.vo.UserAccount">
-        select b.name as username , a.psw from user_account a left join teacher b on a.user_id = b.id;
+        SELECT
+            u.username as username,
+            ua.psw
+        FROM
+            user_account ua
+        LEFT JOIN
+            user u
+        ON
+            ua.user_id = u.id;
     </select>
 </mapper>

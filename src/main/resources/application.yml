@@ -16,6 +16,9 @@ spring:
     cache: false
     encoding: UTF-8
 
+  mvc:
+    static-path-pattern: /static/**
+
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.qmcz.mapper
